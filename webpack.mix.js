@@ -15,3 +15,8 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/navbar.scss', 'public/css')
     .sass('resources/sass/articles.scss', 'public/css');
+
+mix.browserSync({
+    open: false,
+    proxy: 'nginx' // replace with your web server container
+})
