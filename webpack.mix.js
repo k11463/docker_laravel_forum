@@ -13,10 +13,11 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/navbar.scss', 'public/css')
-    .sass('resources/sass/articles.scss', 'public/css');
+    .sass('resources/sass/home.scss', 'public/css')
+    .sass('resources/sass/signin.scss', 'public/css')
+    .sass('resources/sass/signup.scss', 'public/css');
 
 mix.browserSync({
     open: false,
-    proxy: 'nginx' // replace with your web server container
-})
+    proxy: 'nginx'
+});

@@ -3,13 +3,13 @@
     <div class="row">
       <div class="col-10 left padd">
         <!-- tabs -->
-        <div class="row">
+        <div class="row box">
           <div class="col-lg-10">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li
                 class="nav-item"
                 v-for="tab in tabs"
-                :key="tab"
+                :key="tab.id"
                 style="
                   border: 1px solid rgba(224, 135, 18, 0.2);
                   border-radius: 6px;
@@ -32,21 +32,38 @@
         <!-- tabs -->
         <!-- tables -->
         <div class="articles">
-          <div class="head">
-            <div class="row">
-              <div class="col-lg-1 col-md-2">作者</div>
-              <div class="col-lg-1 col-md-2">收藏數</div>
-              <div class="col-lg-8 col-md-4">部分內容</div>
-              <div class="col-lg-2 col-md-4">更新時間</div>
-            </div>
-          </div>
-          <div class="body">
-            <!-- 一次顯示最多十篇 -->
-            <div class="row" v-for="article in articles" :key="article">
-              <div class="col-lg-1 col-md-2 ele">{{ article.maker }}</div>
-              <div class="col-lg-1 col-md-2 ele">{{ article.star }}</div>
-              <div class="col-lg-8 col-md-4 ele">{{ article.context }}</div>
-              <div class="col-lg-2 col-md-4 ele">{{ article.updated }}</div>
+          <!-- 一次顯示最多6篇 -->
+          <div class="row">
+            <div
+              class="col-lg-3 center article_box"
+              v-for="article in articles"
+              :key="article.id"
+            >
+              <div class="card article">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <img
+                      src="https://www.greenqueen.com.hk/wp-content/uploads/2021/06/WEF-Investments-In-Nature-Based-Solutions-Have-To-Triple-By-2030-To-Address-Climate-Change-Biodiversity-Loss.jpg"
+                      width="212"
+                      height="120"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-5">
+                    <div class="card_body card_key">標題</div>
+                    <div class="card_body card_key">發文者</div>
+                    <div class="card_body card_key">最近更新</div>
+                    <div class="card_body card_key">收藏數</div>
+                  </div>
+                  <div class="col-lg-7">
+                    <div class="card_body ct">{{ article.title }}</div>
+                    <div class="card_body ct">{{ article.user }}</div>
+                    <div class="card_body ct">{{ article.updated }}</div>
+                    <div class="card_body ct">{{ article.star }}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -93,51 +110,51 @@ export default {
       ],
       articles: [
         {
-          maker: "作者1",
+          user: "作者1",
           star: 1,
-          context: "123",
+          title: "123",
           updated: "2021/3/21",
         },
         {
-          maker: "作者2",
+          user: "作者2",
           star: 12,
-          context: "456",
+          title: "456",
           updated: "2021/1/23",
         },
         {
-          maker: "作者3",
+          user: "作者3",
           star: 55,
-          context: "789",
+          title: "789",
           updated: "2020/10/10",
         },
         {
-          maker: "作者3",
+          user: "作者4",
           star: 55,
-          context: "789",
+          title: "789",
           updated: "2020/10/10",
         },
         {
-          maker: "作者3",
+          user: "作者5",
           star: 55,
-          context: "789",
+          title: "789",
           updated: "2020/10/10",
         },
         {
-          maker: "作者3",
+          user: "作者6",
           star: 55,
-          context: "789",
+          title: "789",
           updated: "2020/10/10",
         },
         {
-          maker: "作者3",
+          user: "作者7",
           star: 55,
-          context: "789",
+          title: "789",
           updated: "2020/10/10",
         },
         {
-          maker: "作者3",
+          user: "作者8",
           star: 55,
-          context: "789",
+          title: "789",
           updated: "2020/10/10",
         },
       ],
@@ -146,3 +163,6 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped>
+@import "../../sass/home.scss";
+</style>

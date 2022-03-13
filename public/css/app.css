@@ -20457,3 +20457,12 @@ readers do not read off random characters that represent icons */
   font-family: "Font Awesome 6 Free";
   font-weight: 400;
 }
+
+@font-face {
+  font-family: "思源";
+  src: url("/font/GenJyuuGothic-Medium.ttf");
+}
+* {
+  font-family: "思源";
+  letter-spacing: 2px;
+}

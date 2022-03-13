@@ -7,3 +7,13 @@ $fa-font-path:        "../webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 @import "~@fortawesome/fontawesome-free/scss/regular";
+
+@font-face {
+    font-family: "思源";
+    src: url('/font/GenJyuuGothic-Medium.ttf');
+}
+
+* {
+  font-family: "思源";
+  letter-spacing: 2px;
+}

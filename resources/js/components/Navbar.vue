@@ -2,7 +2,7 @@
   <nav class="navbar navbar-dark bg-dark">
     <div class="container">
       <div class="col-2">
-        <a class="navbar-brand title" href="#">
+        <a class="navbar-brand title" href="/">
           <img
             src="favicon.ico"
             alt=""
@@ -45,7 +45,15 @@
             <img src="favicon.ico" width="26" height="28" />
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">登入</a></li>
+            <li>
+              <a
+                class="dropdown-item"
+                :href="nav.url"
+                v-for="nav in navs"
+                :key="nav.id"
+                >{{ nav.name }}</a
+              >
+            </li>
           </ul>
         </div>
       </div>
@@ -55,8 +63,52 @@
 
 <script>
 export default {
-  mounted() {
-    console.log("Component mounted.");
+  data() {
+    return {
+      navs: [
+        {
+          name: "登入",
+          url: "./signin",
+        },
+        {
+          name: "註冊",
+          url: "./signup",
+        },
+      ],
+    };
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid white;
+}
+
+.nav {
+  color: white;
+}
+
+.drop_btn {
+  background-color: white;
+}
+.drop_btn:hover {
+  background-color: rgb(108, 117, 125);
+}
+
+.user_icon {
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  width: 40px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user_icon:hover {
+  border: 1px solid rgb(255, 115, 0);
+}
+</style>
