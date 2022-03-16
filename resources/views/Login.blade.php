@@ -7,7 +7,7 @@
 <body>
     <div id="app">
         <navbar></navbar>
-        <home></home>
+        <login></login>
         <toast></toast>
     </div>
 </body>

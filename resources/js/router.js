@@ -2,7 +2,7 @@ import VueRouter from 'vue-router';
 
 import Home from './pages/Home';
 import Signup from './pages/Signup';
-import Signin from './pages/Signin';
+import Login from './pages/Login';
 
 const router = new VueRouter({
     mode: 'history',
@@ -18,9 +18,9 @@ const router = new VueRouter({
             component: Signup,
         },
         {
-            path: '/signin',
-            name: 'signin',
-            component: Signin,
+            path: '/login',
+            name: 'login',
+            component: Login,
         },
     ],
 });

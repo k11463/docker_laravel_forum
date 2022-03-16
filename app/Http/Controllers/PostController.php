@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class PostsController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,7 +37,7 @@ class PostsController extends Controller
     {
        $data = $request->all();
         DB::table('posts')->insert([
-            'users_id' => $data['users_id'],
+            'user_id' => $data['user_id'],
             'class' => $data['class'],
             'context' => $data['context'],
             'star' => $data['star'],

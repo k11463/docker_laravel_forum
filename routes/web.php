@@ -2,15 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{any}', function () { return view('Homepage'); })->where('any', '.*');
-// views
-// Route::get('/', function () { return view('Homepage'); });
-// Route::get('signup', function() { return view('Signup'); });
-// Route::get('signin', function() { return view('Signin'); });
-
 Route::post('signup/store', 'AuthController@signup');
-Route::resource('posts', PostsController::class);
+Route::post('login', 'AuthController@login');
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('user', 'AuthController@user');
+});
 
+Route::resource('posts', PostController::class);
+
+// Route::get('/{any}', function () { return view('Homepage'); })->where('any', '.*');
+
+// views
+Route::get('/', function () { return view('Homepage'); });
+Route::get('signup', function() { return view('Signup'); });
+Route::get('login', function() { return view('Login'); });
+
+// group範例
 // Route::group([
 // 	'middleware' => ['checkValidIp'],
 // 	'prefix' => 'web',

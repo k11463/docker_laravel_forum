@@ -1,35 +1,30 @@
 <template>
   <div class="toast" id="toast">
     <div class="toast-header">
-      <strong class="me-auto">註冊成功</strong>
-      <small>1分鐘內</small>
+      <strong class="me-auto">{{ title }}</strong>
     </div>
-    <div class="toast-body">帳號已建立完成</div>
+    <div class="toast-body">
+      {{ content }}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  mounted() {},
+  mounted() {
+    if (window.localStorage.getItem("toast_status") != null) {
+      this.title = window.localStorage.getItem("toast_title");
+      this.content = window.localStorage.getItem("toast_content");
+      var ele = document.getElementById("toast");
+      var toast = new bootstrap.Toast(ele);
+      toast.show();
+    }
+  },
   data() {
     return {
-      counter: 2,
+      title: "",
+      content: "",
     };
-  },
-  computed: {
-    GetStateToast() {
-      return this.$store.state.toast;
-    },
-  },
-  watch: {
-    GetStateToast(val) {
-      if (val) {
-        var ele = document.getElementById("toast");
-        var toast = new bootstrap.Toast(ele);
-        toast.show();
-        this.$store.dispatch("ChangeToast");
-      }
-    },
   },
 };
 </script>

@@ -95,6 +95,9 @@
 
 <script>
 export default {
+  mounted() {
+    console.log(this.$store.state.toast.count);
+  },
   data() {
     return {
       tabs: [

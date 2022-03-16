@@ -43,37 +43,3 @@
   margin-top: 32px;
   color: #ff6565;
 }
-
-.alert_box {
-  position: absolute;
-  width: 100vw;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.alert {
-  width: 400px;
-  height: 120px;
-  border: 1px solid #b4b4b4;
-  margin-top: 340px;
-}
-
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn {
-  width: 100px;
-  float: right;
-  margin-right: 12px;
-  background-color: #ffc380;
-  color: white;
-}
-
-.down {
-  margin-top: 20px;
-}

@@ -68,7 +68,7 @@ export default {
       navs: [
         {
           name: "登入",
-          url: "./signin",
+          url: "./login",
         },
         {
           name: "註冊",

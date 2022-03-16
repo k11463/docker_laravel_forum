@@ -10,7 +10,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col center title">紙扇會員註冊</div>
+              <div class="col center title">紙扇會員登入</div>
             </div>
           </div>
         </div>
@@ -41,13 +41,7 @@
             </div>
             <div class="row">
               <div class="col center btn_signup_box">
-                <button class="btn" @click="this.Signup">註冊</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col center login_hint">
-                已經有會員了? 還不快登入????
-                <a href="/login">登入</a>
+                <button class="btn" @click="this.Login">登入</button>
               </div>
             </div>
           </div>
@@ -64,32 +58,18 @@ export default {
     return {
       inputs: [
         {
-          type: "email",
-          title: "Email",
-          placeholder: "請輸入正確的Email格式",
-          value: "",
-          input_label: "email",
-        },
-        {
           type: "text",
-          title: "使用者名稱",
-          placeholder: "最大不可超過8位數",
+          title: "帳號",
+          placeholder: "請輸入Email或使用者名稱",
           value: "",
-          input_label: "username",
+          input_label: "account",
         },
         {
           type: "password",
           title: "密碼",
-          placeholder: "6~12位數，需包含數字、大小寫和特殊符號",
+          placeholder: "請輸入密碼",
           value: "",
           input_label: "password",
-        },
-        {
-          type: "password",
-          title: "密碼確認",
-          placeholder: "請再輸入一次密碼",
-          value: "",
-          input_label: "password_confirmation",
         },
       ],
       error_msg: "",
@@ -97,46 +77,38 @@ export default {
     };
   },
   methods: {
-    Signup() {
-      let email, username, password, password_confirmation;
+    Login() {
+      let account, password;
       this.inputs.forEach((element) => {
         switch (element.input_label) {
-          case "email":
-            email = element.value;
-            break;
-          case "username":
-            username = element.value;
+          case "account":
+            account = element.value;
             break;
           case "password":
             password = element.value;
             break;
-          case "password_confirmation":
-            password_confirmation = element.value;
-            break;
         }
       });
       axios
-        .post("/signup/store", {
-          email: email,
-          username: username,
+        .post("/login", {
+          account: account,
           password: password,
-          password_confirmation: password_confirmation,
         })
         .then((res) => {
           //   console.log(res);
-          if (res.status === 201 && res.data === "create success") {
-            window.location.href = "/login";
-            window.localStorage.setItem("toast_status", "true");
-            window.localStorage.setItem("toast_title", "註冊成功");
-            window.localStorage.setItem("toast_content", "帳號已建立完成");
-          }
+          //   if (res.status == 201 && res.data == "create success") {
+          //     this.$store.dispatch("ChangeToast");
+          //     this.$router.push("/signin");
+          //   }
         })
         .catch((err) => {
-          // console.log(Object.values(err.response.data.errors)[0][0]);
-          console.log(err);
+          //   console.log(Object.values(err.response.data.errors)[0][0]);
+          //   console.log(err.response.data);
           this.error_msg = "";
-          if (err.response != undefined && err.response.status == 422) {
+          if (err.response.status == 422) {
             this.error_msg = Object.values(err.response.data.errors)[0][0];
+          } else {
+            this.error_msg = err.response.data;
           }
         });
     },
@@ -145,5 +117,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../sass/signup.scss";
+@import "../../sass/login.scss";
 </style>

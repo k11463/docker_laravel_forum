@@ -14,7 +14,7 @@ mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/home.scss', 'public/css')
-    .sass('resources/sass/signin.scss', 'public/css')
+    .sass('resources/sass/login.scss', 'public/css')
     .sass('resources/sass/signup.scss', 'public/css');
 
 mix.browserSync({
