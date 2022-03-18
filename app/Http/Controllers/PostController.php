@@ -13,7 +13,16 @@ class PostController extends Controller
 {
     public function index()
     {
+        // 類別
 
+        // 分頁
+        $postCount = Post::count();
+        $postPerPage = 10;
+        $postPages = ceil($postCount / $postPerPage); // ceil()是無條件進位
+        $currentPage = isset($request->all()['page']) ? $request->all()['page'] : 1; // 當前頁面：如果沒有帶page參數預設第一頁
+
+        // 總處理
+        $posts = Post::orderBy('updated_at', 'desc');
     }
 
 

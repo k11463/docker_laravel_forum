@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh">
 
-@include('Head')
+@include('layout.layout')
 @yield('head')
 
 <body>
+    @yield('spinner')
     <div id="app">
         <navbar></navbar>
-        <create-post></create-post>
+        <login></login>
         <toast></toast>
     </div>
 </body>
 
 </html>
 
-<script src="js/app.js"></script>
+@yield('js')

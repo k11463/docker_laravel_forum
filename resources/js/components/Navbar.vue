@@ -1,63 +1,38 @@
 <template>
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-      <div class="col-2">
-        <a class="navbar-brand title" href="/">
-          <img
-            src="favicon.ico"
-            alt=""
-            width="30"
-            height="30"
-            style="margin-bottom: 4px"
-          />
-          紙扇論壇
-        </a>
-      </div>
-
-      <div class="col-6">
-        <div class="input-group">
-          <button
-            class="btn btn-outline-secondary dropdown-toggle drop_btn"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+  <nav
+    class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0"
+  >
+    <a href="/" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary">紙扇論壇</h2>
+    </a>
+    <button
+      type="button"
+      class="navbar-toggler me-4"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarCollapse"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+        <a href="/" class="nav-item nav-link active nav-a">首頁</a>
+        <a href="/post" class="nav-item nav-link nav-a">論壇</a>
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+            ><img src="favicon.ico"
+          /></a>
+          <div
+            class="dropdown-menu fade-down dropdown-menu-end dropdown-menu-side"
           >
-            文章分類
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">分類1</a></li>
-          </ul>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Text input with dropdown button"
-            placeholder="請輸入欲搜尋的關鍵字"
-          />
-          <button class="btn btn-outline-secondary drop_btn">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </div>
-      </div>
-
-      <div class="col-2">
-        <div class="dropdown" style="float: right">
-          <button class="btn user_icon" data-bs-toggle="dropdown">
-            <img src="favicon.ico" width="26" height="28" />
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <a
-                class="dropdown-item"
-                :href="nav.url"
-                v-for="nav in navbars"
-                :key="nav.id"
-                >{{ nav.name }}</a
-              >
-              <button class="dropdown-item" v-if="login_status" @click="logout">
-                登出
-              </button>
-            </li>
-          </ul>
+            <a
+              :href="navbar.url"
+              class="dropdown-item"
+              v-for="navbar in navbars"
+              :key="navbar.id"
+            >
+              {{ navbar.name }}
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -130,35 +105,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid white;
-}
-
-.nav {
-  color: white;
-}
-
-.drop_btn {
-  background-color: white;
-}
-.drop_btn:hover {
-  background-color: rgb(108, 117, 125);
-}
-
-.user_icon {
-  border-radius: 50%;
-  background-color: rgb(255, 255, 255);
-  width: 40px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.user_icon:hover {
-  border: 1px solid rgb(255, 115, 0);
-}
+<style lang="css" scoped>
+@import "../../css/navbar.css";
 </style>

@@ -13,7 +13,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/home.scss', 'public/css')
+    .sass('resources/sass/post.scss', 'public/css')
     .sass('resources/sass/login.scss', 'public/css')
     .sass('resources/sass/createpost.scss', 'public/css')
     .sass('resources/sass/signup.scss', 'public/css');

@@ -1,118 +1,46 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-10 left" style="padding: 1.2vw">
-        <!-- tabs -->
-        <div class="row tabs">
-          <div class="col-lg-10 left">
-            <button class="btn" v-for="tab in tabs" :key="tab.id">
-              {{ tab.name }}
-            </button>
-          </div>
-          <div class="col-lg-2 right">
-            <button class="btn create_post_btn" @click="href('/create-post')">
-              發表文章
-            </button>
-          </div>
-        </div>
-        <!-- tabs -->
-        <!-- tables -->
-        <div class="row posts">
-          <div class="col-lg-12">
-            <table>
-              <thead>
-                <tr>
-                  <th class="star">收藏數</th>
-                  <th class="title">文章標題</th>
-                  <th class="user">作者</th>
-                  <th class="update">更新時間</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="star">收藏數</td>
-                  <td class="title">文章標題</td>
-                  <td class="user">作者</td>
-                  <td class="update">更新時間</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <!-- <div class="row articles">
-          <div class="row box">
-            <div class="col-lg-12">
-              <div class="element star ct">收藏數</div>
-              <div class="element title">文章標題</div>
-              <div class="element user ct">文章作者</div>
-              <div class="element update ct">最後更新時間</div>
+  <div class="container-fluid p-0 mb-5">
+    <div class="owl-carousel header-carousel position-relative">
+      <div class="owl-carousel-item position-relative">
+        <img
+          class="img-fluid"
+          src="https://p2.bahamut.com.tw/B/2KU/44/4d26503121933c80008fd8968c171vo5.PNG?v=1584532929534"
+          alt=""
+        />
+        <div
+          class="
+            position-absolute
+            top-0
+            start-0
+            w-100
+            h-100
+            d-flex
+            align-items-center
+          "
+          style="background: rgba(24, 29, 56, 0.7)"
+        >
+          <div class="container">
+            <div class="row justify-content-start">
+              <div class="col-sm-10 col-lg-8">
+                <h5
+                  class="text-primary text-uppercase mb-3 animated slideInDown"
+                >
+                  最好的體驗
+                </h5>
+                <h1 class="display-3 text-white animated slideInDown">
+                  紙扇論壇
+                </h1>
+                <p class="fs-5 text-white mb-4 pb-2">讓您體會前所未有的高潮</p>
+                <a
+                  href="/post"
+                  class="btn btn-light py-md-3 px-md-5 animated slideInRight"
+                  >現在就開始使用</a
+                >
+              </div>
             </div>
           </div>
-          <div class="row box article">
-            <div class="col-lg-12">
-              <div class="element star ct">1</div>
-              <div class="element title">title</div>
-              <div class="element user ct">user</div>
-              <div class="element update ct">update</div>
-            </div>
-          </div>
-        </div> -->
-        <div class="row page">
-          <div class="col">
-            <nav aria-label="Page navigation example">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
         </div>
-        <!-- tables -->
       </div>
-      <div class="col-2 right padd" style="border: 1px solid">開發中</div>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  mounted() {},
-  data() {
-    return {
-      tabs: [
-        {
-          name: "電玩相關",
-        },
-        {
-          name: "心情抒發",
-        },
-        {
-          name: "發問專區",
-        },
-      ],
-      posts: [],
-    };
-  },
-  methods: {
-    href(url) {
-      console.log(url);
-      window.location.href = url;
-    },
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-@import "../../sass/home.scss";
-</style>
