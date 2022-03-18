@@ -95,11 +95,16 @@ export default {
           password: password,
         })
         .then((res) => {
-          //   console.log(res);
-          //   if (res.status == 201 && res.data == "create success") {
-          //     this.$store.dispatch("ChangeToast");
-          //     this.$router.push("/signin");
-          //   }
+          console.log(res);
+          if (res.status == 200) {
+            window.location.href = "/";
+            window.localStorage.setItem("token", res.data.token);
+            this.$store.dispatch("SetToast", {
+              status: true,
+              title: "系統提示",
+              content: `登入成功，歡迎回來 ${res.data.username}`,
+            });
+          }
         })
         .catch((err) => {
           //   console.log(Object.values(err.response.data.errors)[0][0]);
@@ -107,8 +112,10 @@ export default {
           this.error_msg = "";
           if (err.response.status == 422) {
             this.error_msg = Object.values(err.response.data.errors)[0][0];
-          } else {
+          } else if (err.response.status == 401) {
             this.error_msg = err.response.data;
+          } else {
+            this.error_msg = "發生了未知的錯誤";
           }
         });
     },

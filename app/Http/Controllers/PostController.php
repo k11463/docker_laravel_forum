@@ -3,48 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
+use App\Handlers\ImageUploadHandler;
+use App\Models\Post;
+use App\Http\Requests\CreatePost;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return csrf_token();
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(CreatePost $request, ImageUploadHandler $uploader)
     {
-       $data = $request->all();
-        DB::table('posts')->insert([
-            'user_id' => $data['user_id'],
-            'class' => $data['class'],
-            'context' => $data['context'],
-            'star' => $data['star'],
-            'created_at' => now(),
-            'updated_at' => now()
+        $post = new Post([
+            'title' => $request->title,
+            'category' => $request->category,
+            'content' => $request->content,
+            'user_id' => auth()->user()->id,
+            'star' => 0
         ]);
-        return response()->json(true);
+        $post->save();
+        return $post;
     }
 
     /**

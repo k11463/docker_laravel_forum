@@ -8,48 +8,86 @@
     border: 1px solid #000;
 }
 
-.padd {
-    padding: 0.8vw;
-}
-
-.box {
-    margin-top: 80px;
-}
-
-.articles {
+.nav-item {
     border: 1px solid rgba(224, 135, 18, 0.2);
-    padding: 20px;
-    padding-top: 0px;
+    border-radius: 6px;
+    .nav-link {
+        color: rgb(224, 135, 18)
+    }
 }
 
-.article_box {
-    margin-top: 20px;
+.tabs {
+    width: 100%;
+    padding: 120px;
+    padding-bottom: 0;
+    padding-top: 0;
+    .left {
+        .btn {
+            background-color: #ffc38a;
+            color: white;
+        }
+    }
+    .right {
+        display: flex;
+        justify-content: flex-end;
+    }
 }
 
-.article {
+.posts {
+    padding: 120px;
+    padding-bottom: 0;
+    padding-top: 0;
+    table {
+        border: 2px solid rgba(224, 135, 18, 0.2);
+        width: 800px;
+        tr {
+            height: 44px;
+            th {
+                color:rgb(161, 103, 27);
+                border-right: 2px solid rgba(224, 135, 18, 0.2);
+                height: 100%;
+                border-bottom: 2px solid rgba(224, 135, 18, 0.2);
+            }
+            td {
+                color:rgb(161, 103, 27);
+                height: 100%;
+                border-bottom: 2px solid rgba(224, 135, 18, 0.2);
+                border-right: 2px solid rgba(224, 135, 18, 0.2);
+            }
+            .star {
+                width: 10%;
+                text-align: center;
+            }
+            .title {
+                width: 60%;
+                padding-left: 20px;
+            }
+            .user {
+                width: 12%;
+                text-align: center;
+            }
+            .update {
+                width: 18%;
+                text-align: center;
+            }
+        }
+        tbody tr:hover {
+            cursor: pointer;
+            background-color: #ffc38a;
+            * {
+                color: white;
+            }
+        }
+    }
+}
+
+.create_post_btn {
+    background-color: #ffc38a;
+    color: white;
     border: 1px solid rgba(224, 135, 18, 0.2);
-    height: 272px;
-    padding: 12px;
-    cursor: pointer;
 }
-.article:hover {
-    background-color: rgba(255, 236, 214, 0.103);
-}
-
-.card_body {
-    margin-top: 8px;
-}
-.card_key {
-    color: rgb(224, 135, 18);
-}
-
-.post_btn {
-    background-color: rgb(255, 174, 0);
-    color:rgb(255, 254, 166);
-    border: 1px solid rgba(224, 135, 18, 0.2);
-}
-.post_btn:hover {
-    color:rgb(255, 254, 166);
+.create_post_btn:hover {
+    color: white;
 }
 
 .page {

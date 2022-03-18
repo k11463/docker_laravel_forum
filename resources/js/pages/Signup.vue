@@ -126,14 +126,16 @@ export default {
           //   console.log(res);
           if (res.status === 201 && res.data === "create success") {
             window.location.href = "/login";
-            window.localStorage.setItem("toast_status", "true");
-            window.localStorage.setItem("toast_title", "註冊成功");
-            window.localStorage.setItem("toast_content", "帳號已建立完成");
+            this.$store.dispatch("SetToast", {
+              status: true,
+              title: "系統提示",
+              content: "註冊成功，帳號已建立完成",
+            });
           }
         })
         .catch((err) => {
           // console.log(Object.values(err.response.data.errors)[0][0]);
-          console.log(err);
+          //   console.log(err);
           this.error_msg = "";
           if (err.response != undefined && err.response.status == 422) {
             this.error_msg = Object.values(err.response.data.errors)[0][0];

@@ -1,0 +1,39 @@
+.box {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 1200px;
+  height: 900px;
+}
+
+.title {
+  height: 80px;
+  font-size: 24px;
+  letter-spacing: 8px;
+}
+
+.bottom {
+  height: 60px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+.bottom .error_msg {
+  color: #ff7f5f;
+}
+.bottom .right button {
+  background-color: #ffddb7;
+  color: #ffa632;
+  border: 1px solid #ee8d33;
+  margin-right: 10px;
+  float: right;
+}

@@ -18,6 +18,7 @@ export default {
       var ele = document.getElementById("toast");
       var toast = new bootstrap.Toast(ele);
       toast.show();
+      window.localStorage.removeItem("toast_status");
     }
   },
   data() {

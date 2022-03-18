@@ -49,10 +49,13 @@
               <a
                 class="dropdown-item"
                 :href="nav.url"
-                v-for="nav in navs"
+                v-for="nav in navbars"
                 :key="nav.id"
                 >{{ nav.name }}</a
               >
+              <button class="dropdown-item" v-if="login_status" @click="logout">
+                登出
+              </button>
             </li>
           </ul>
         </div>
@@ -63,6 +66,19 @@
 
 <script>
 export default {
+  mounted() {
+    if (window.localStorage.getItem("token") != null) {
+      axios
+        .get("/check-token", {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          this.login_status = true;
+        });
+    }
+  },
   data() {
     return {
       navs: [
@@ -75,7 +91,41 @@ export default {
           url: "./signup",
         },
       ],
+      login_navs: [
+        {
+          name: "會員資料管理",
+          url: "/",
+        },
+      ],
+      login_status: false,
     };
+  },
+  computed: {
+    navbars() {
+      if (this.login_status) {
+        return this.login_navs;
+      } else {
+        return this.navs;
+      }
+    },
+  },
+  methods: {
+    logout() {
+      axios
+        .get("/logout", {
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          window.location.reload();
+          this.$store.dispatch("SetToast", {
+            status: true,
+            title: "系統提示",
+            content: "登出成功",
+          });
+        });
+    },
   },
 };
 </script>
