@@ -13,6 +13,10 @@ class Post extends Model
         'category', 'title', 'content', 'star', 'user_id'
     ];
 
+    protected $hidden = [
+        'category', 'id', 'user_id'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

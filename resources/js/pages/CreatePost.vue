@@ -69,7 +69,7 @@ export default {
           },
         })
         .catch((err) => {
-          window.location.href = "/";
+          window.location.href = "/post";
           this.$store.dispatch("SetToast", {
             status: true,
             title: "系統提示",
@@ -77,7 +77,7 @@ export default {
           });
         });
     } else {
-      window.location.href = "/";
+      window.location.href = "/post";
       this.$store.dispatch("SetToast", {
         status: true,
         title: "系統提示",
@@ -128,7 +128,7 @@ export default {
       axios
         .post("/post", formData, config)
         .then((res) => {
-          window.location.href = "/";
+          window.location.href = "/post";
           this.$store.dispatch("SetToast", {
             status: true,
             title: "系統提示",
@@ -143,7 +143,7 @@ export default {
         });
     },
     cancel() {
-      window.location.href = "/";
+      window.location.href = "/post";
     },
   },
   computed: {

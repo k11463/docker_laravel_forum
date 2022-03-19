@@ -11,20 +11,30 @@ use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // 類別
+        $currentCategory = isset($request->category) ? $request->category : '電玩相關'; // 如果沒有傳過來category這個參數，預設為電玩相關
 
         // 分頁
         $postCount = Post::count();
         $postPerPage = 10;
         $postPages = ceil($postCount / $postPerPage); // ceil()是無條件進位
-        $currentPage = isset($request->all()['page']) ? $request->all()['page'] : 1; // 當前頁面：如果沒有帶page參數預設第一頁
+        $currentPage = isset($request->page) ? $request->page : 1;
+
+        // 排序
+        $currentSortWith = isset($request->sortWith) ? $request->sortWith : 'created_at';
+        $currentSortType = isset($request->sortType) ? $request->sortType : 'desc';
 
         // 總處理
-        $posts = Post::orderBy('updated_at', 'desc');
-    }
+        $posts = Post::where('category', $currentCategory)
+                     ->orderBy($currentSortWith, $currentSortType)
+                     ->offset($postPerPage * ($currentPage - 1))
+                     ->limit($postPerPage)
+                     ->get();
 
+        return response()->json($posts);
+    }
 
     public function store(CreatePost $request, ImageUploadHandler $uploader)
     {
@@ -39,35 +49,6 @@ class PostController extends Controller
         return $post;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $data = $request->all();
@@ -79,12 +60,6 @@ class PostController extends Controller
         return response()->json(true);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         DB::table('posts')->where('id', $id)->delete();

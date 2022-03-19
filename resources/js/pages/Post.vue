@@ -7,7 +7,7 @@
           <div class="col-lg-8">
             <div class="input-group">
               <div class="input-group-prepend">
-                <select class="form-select" @change="changeOption">
+                <select class="form-select" @change="categorySelected">
                   <option v-for="tab in tabs" :key="tab.id" :value="tab.name">
                     {{ tab.name }}
                   </option>
@@ -67,11 +67,17 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="star">收藏數</td>
-                  <td class="title">文章標題</td>
-                  <td class="user">作者</td>
-                  <td class="update">更新時間</td>
+                <tr v-for="post in posts" :key="post.id">
+                  <td class="star">
+                    {{ post.star }}
+                  </td>
+                  <td class="title">
+                    {{ post.title }}
+                  </td>
+                  <td class="user"></td>
+                  <td class="update">
+                    {{ post.updated_at }}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -107,7 +113,19 @@
 
 <script>
 export default {
-  mounted() {},
+  mounted() {
+    axios
+      .get("/posts")
+      .then((res) => {
+        //   console.log(res);
+        res.data.forEach((element) => {
+          this.posts.push(element);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   data() {
     return {
       tabs: [
@@ -148,6 +166,12 @@ export default {
           value: "star_asc",
         },
       ],
+      search: {
+        category: "",
+        title: "",
+        sortWith: "",
+        sortType: "",
+      },
     };
   },
   methods: {
@@ -156,15 +180,18 @@ export default {
       window.location.href = url;
     },
     changeSort(val) {
-      let findWith, sortWith;
-      if (/create/.test(val.target.value)) findWith = "created_at";
-      if (/update/.test(val.target.value)) findWith = "updated_at";
-      if (/star/.test(val.target.value)) findWith = "star";
-      if (/desc/.test(val.target.value)) sortWith = "desc";
-      if (/asc/.test(val.target.value)) sortWith = "asc";
+      if (/create/.test(val.target.value)) this.sortWith = "created_at";
+      if (/update/.test(val.target.value)) this.sortWith = "updated_at";
+      if (/star/.test(val.target.value)) this.sortWith = "star";
+      if (/desc/.test(val.target.value)) this.sortType = "desc";
+      if (/asc/.test(val.target.value)) this.sortType = "asc";
       //   console.log(findWith + " + " + sortWith);
       //   if (val.tar)
     },
+    categorySelected(val) {
+      console.log(val);
+    },
+    search() {},
   },
 };
 </script>

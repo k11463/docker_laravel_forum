@@ -11,6 +11,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 });
 Route::get('/', function () { return view('home'); });
 Route::get('/post', function() {return view('post'); });
+Route::get('/posts', "PostController@index");
 Route::get('/signup', function() { return view('signup'); });
 Route::get('/login', function() { return view('login'); })->name('login');
 Route::get('/create-post', function() { return view('createPost'); });

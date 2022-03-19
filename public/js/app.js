@@ -5489,7 +5489,7 @@ __webpack_require__.r(__webpack_exports__);
           Authorization: "Bearer ".concat(window.localStorage.getItem("token"))
         }
       })["catch"](function (err) {
-        window.location.href = "/";
+        window.location.href = "/post";
 
         _this.$store.dispatch("SetToast", {
           status: true,
@@ -5498,7 +5498,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     } else {
-      window.location.href = "/";
+      window.location.href = "/post";
       this.$store.dispatch("SetToast", {
         status: true,
         title: "系統提示",
@@ -5548,7 +5548,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
       axios.post("/post", formData, config).then(function (res) {
-        window.location.href = "/";
+        window.location.href = "/post";
 
         _this2.$store.dispatch("SetToast", {
           status: true,
@@ -5564,7 +5564,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     cancel: function cancel() {
-      window.location.href = "/";
+      window.location.href = "/post";
     }
   },
   computed: {
@@ -5834,8 +5834,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get("/posts").then(function (res) {
+      //   console.log(res);
+      res.data.forEach(function (element) {
+        _this.posts.push(element);
+      });
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  },
   data: function data() {
     return {
       tabs: [{
@@ -5864,7 +5881,13 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         name: "收藏數 少~多",
         value: "star_asc"
-      }]
+      }],
+      search: {
+        category: "",
+        title: "",
+        sortWith: "",
+        sortType: ""
+      }
     };
   },
   methods: {
@@ -5873,14 +5896,17 @@ __webpack_require__.r(__webpack_exports__);
       window.location.href = url;
     },
     changeSort: function changeSort(val) {
-      var findWith, sortWith;
-      if (/create/.test(val.target.value)) findWith = "created_at";
-      if (/update/.test(val.target.value)) findWith = "updated_at";
-      if (/star/.test(val.target.value)) findWith = "star";
-      if (/desc/.test(val.target.value)) sortWith = "desc";
-      if (/asc/.test(val.target.value)) sortWith = "asc"; //   console.log(findWith + " + " + sortWith);
+      if (/create/.test(val.target.value)) this.sortWith = "created_at";
+      if (/update/.test(val.target.value)) this.sortWith = "updated_at";
+      if (/star/.test(val.target.value)) this.sortWith = "star";
+      if (/desc/.test(val.target.value)) this.sortType = "desc";
+      if (/asc/.test(val.target.value)) this.sortType = "asc"; //   console.log(findWith + " + " + sortWith);
       //   if (val.tar)
-    }
+    },
+    categorySelected: function categorySelected(val) {
+      console.log(val);
+    },
+    search: function search() {}
   }
 });
 
@@ -18093,7 +18119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".toast[data-v-3c00b968] {\n  width: 300px;\n  height: 88px;\n  position: fixed;\n  bottom: 4px;\n  right: 4px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".toast[data-v-3c00b968] {\n  width: 300px;\n  height: 88px;\n  position: fixed;\n  bottom: 4px;\n  right: 4px;\n  z-index: 99999;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37561,7 +37587,7 @@ var render = function () {
                     "select",
                     {
                       staticClass: "form-select",
-                      on: { change: _vm.changeOption },
+                      on: { change: _vm.categorySelected },
                     },
                     _vm._l(_vm.tabs, function (tab) {
                       return _c(
@@ -37649,7 +37675,47 @@ var render = function () {
             ]),
           ]),
           _vm._v(" "),
-          _vm._m(1),
+          _c("div", { staticClass: "row posts" }, [
+            _c("div", { staticClass: "col-lg-12" }, [
+              _c("table", [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.posts, function (post) {
+                    return _c("tr", { key: post.id }, [
+                      _c("td", { staticClass: "star" }, [
+                        _vm._v(
+                          "\n                  " +
+                            _vm._s(post.star) +
+                            "\n                "
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "title" }, [
+                        _vm._v(
+                          "\n                  " +
+                            _vm._s(post.title) +
+                            "\n                "
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "user" }),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "update" }, [
+                        _vm._v(
+                          "\n                  " +
+                            _vm._s(post.updated_at) +
+                            "\n                "
+                        ),
+                      ]),
+                    ])
+                  }),
+                  0
+                ),
+              ]),
+            ]),
+          ]),
           _vm._v(" "),
           _vm._m(2),
         ]
@@ -37679,33 +37745,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row posts" }, [
-      _c("div", { staticClass: "col-lg-12" }, [
-        _c("table", [
-          _c("thead", [
-            _c("tr", [
-              _c("th", { staticClass: "star" }, [_vm._v("收藏數")]),
-              _vm._v(" "),
-              _c("th", { staticClass: "title" }, [_vm._v("文章標題")]),
-              _vm._v(" "),
-              _c("th", { staticClass: "user" }, [_vm._v("作者")]),
-              _vm._v(" "),
-              _c("th", { staticClass: "update" }, [_vm._v("更新時間")]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("tbody", [
-            _c("tr", [
-              _c("td", { staticClass: "star" }, [_vm._v("收藏數")]),
-              _vm._v(" "),
-              _c("td", { staticClass: "title" }, [_vm._v("文章標題")]),
-              _vm._v(" "),
-              _c("td", { staticClass: "user" }, [_vm._v("作者")]),
-              _vm._v(" "),
-              _c("td", { staticClass: "update" }, [_vm._v("更新時間")]),
-            ]),
-          ]),
-        ]),
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "star" }, [_vm._v("收藏數")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "title" }, [_vm._v("文章標題")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "user" }, [_vm._v("作者")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "update" }, [_vm._v("更新時間")]),
       ]),
     ])
   },
