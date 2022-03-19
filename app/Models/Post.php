@@ -14,7 +14,7 @@ class Post extends Model
     ];
 
     protected $hidden = [
-        'category', 'id', 'user_id'
+        'id', 'user_id'
     ];
 
     public function user()

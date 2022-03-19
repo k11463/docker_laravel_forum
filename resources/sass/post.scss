@@ -8,10 +8,6 @@
     border: 1px solid #000;
 }
 
-.searchbar {
-
-}
-
 .change-sort {
     display: flex;
     justify-content: flex-end;
@@ -87,7 +83,7 @@
                 text-align: center;
             }
             .title {
-                width: 60%;
+                width: 62%;
                 padding-left: 20px;
             }
             .user {
@@ -95,7 +91,7 @@
                 text-align: center;
             }
             .update {
-                width: 18%;
+                width: 16%;
                 text-align: center;
             }
         }
@@ -106,6 +102,12 @@
                 color: white;
             }
         }
+    }
+    .no-find {
+        border: 2px solid rgba(224, 135, 18, 0.2);
+        border-top: 0;
+        width: 98%;
+        height: 60px;
     }
 }
 
@@ -130,6 +132,11 @@
         a {
             color: rgb(224, 135, 18);
             border: 1px solid rgba(224, 135, 18, 0.2);
+            cursor: pointer;
         }
     }
+}
+
+.page-selected {
+    color: rgb(255, 126, 66) !important;
 }

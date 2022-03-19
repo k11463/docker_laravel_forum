@@ -27,13 +27,34 @@ class PostController extends Controller
         $currentSortType = isset($request->sortType) ? $request->sortType : 'desc';
 
         // 總處理
-        $posts = Post::where('category', $currentCategory)
+        $title = $request->title;
+        $posts = Post::with(['user']) // with是增加效能的一個方式 可以減少sql指令
+                     ->where(function ($query) use ($currentCategory, $title) {
+                         if (isset($title)){ // 如果沒有輸入title查詢就直接跳過title找category
+                             $query->where('title', 'like', '%'.$title.'%');
+                         };
+                         $query->where('category', '=', $currentCategory);
+                     })
                      ->orderBy($currentSortWith, $currentSortType)
                      ->offset($postPerPage * ($currentPage - 1))
                      ->limit($postPerPage)
                      ->get();
-
-        return response()->json($posts);
+        $returnPosts = [];
+        foreach ($posts as $post) {
+            $newPost = [
+                'title' => $post->title,
+                'content' => $post->content,
+                'username' => $post->user->username,
+                'star' => $post->star,
+                'created_at' => $post->created_at->format('Y-m-d H-m-s'),
+                'updated_at' => $post->updated_at->format('Y-m-d H-m-s'),
+            ];
+            array_push($returnPosts, $newPost);
+        }
+        return response()->json([
+            'posts' => $returnPosts,
+            'pages' => $postPages
+        ]);
     }
 
     public function store(CreatePost $request, ImageUploadHandler $uploader)

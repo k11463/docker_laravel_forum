@@ -5840,22 +5840,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     var _this = this;
 
     axios.get("/posts").then(function (res) {
-      //   console.log(res);
-      res.data.forEach(function (element) {
+      // console.log(res.data);
+      res.data.posts.forEach(function (element) {
         _this.posts.push(element);
       });
+      _this.page.total = res.data.pages;
+      if (_this.page.total < _this.page.max) _this.page.max = _this.page.total;
+
+      _this.updatePages();
     })["catch"](function (err) {
       console.log(err);
     });
   },
   data: function data() {
     return {
-      tabs: [{
+      categorys: [{
         name: "電玩相關"
       }, {
         name: "心情抒發"
@@ -5887,6 +5918,13 @@ __webpack_require__.r(__webpack_exports__);
         title: "",
         sortWith: "",
         sortType: ""
+      },
+      currentPage: 1,
+      page: {
+        min: 1,
+        max: 7,
+        total: 1,
+        pages: [1]
       }
     };
   },
@@ -5896,17 +5934,69 @@ __webpack_require__.r(__webpack_exports__);
       window.location.href = url;
     },
     changeSort: function changeSort(val) {
-      if (/create/.test(val.target.value)) this.sortWith = "created_at";
-      if (/update/.test(val.target.value)) this.sortWith = "updated_at";
-      if (/star/.test(val.target.value)) this.sortWith = "star";
-      if (/desc/.test(val.target.value)) this.sortType = "desc";
-      if (/asc/.test(val.target.value)) this.sortType = "asc"; //   console.log(findWith + " + " + sortWith);
-      //   if (val.tar)
+      if (/create/.test(val.target.value)) this.search.sortWith = "created_at";
+      if (/update/.test(val.target.value)) this.search.sortWith = "updated_at";
+      if (/star/.test(val.target.value)) this.search.sortWith = "star";
+      if (/desc/.test(val.target.value)) this.search.sortType = "desc";
+      if (/asc/.test(val.target.value)) this.search.sortType = "asc";
+      this.updatePosts();
+    },
+    changeCategory: function changeCategory(name) {
+      this.search.category = name;
+      this.updatePosts();
     },
     categorySelected: function categorySelected(val) {
-      console.log(val);
+      this.search.category = val.target.value;
     },
-    search: function search() {}
+    searchTitle: function searchTitle() {
+      this.updatePosts();
+      this.search.title = "";
+    },
+    updatePosts: function updatePosts() {
+      var _this2 = this;
+
+      var url = "/posts?";
+      if (this.search.category != "") url += "category=" + this.search.category + "&";
+      if (this.search.title != "") url += "title=" + this.search.title + "&";
+      if (this.search.sortWith != "") url += "sortWith=" + this.search.sortWith + "&";
+      if (this.search.sortType != "") url += "sortType=" + this.search.sortType + "&";
+      if (this.currentPage > 1) url += "page=" + this.currentPage + "&";
+      axios.get(url).then(function (res) {
+        // console.log(res.data);
+        _this2.posts = [];
+        res.data.posts.forEach(function (element) {
+          _this2.posts.push(element);
+        });
+      });
+    },
+    updatePages: function updatePages() {
+      this.page.pages = [];
+
+      for (var i = this.page.min; i <= this.page.max; i++) {
+        this.page.pages.push(i);
+      }
+    },
+    changePage: function changePage(page) {
+      this.currentPage = page;
+      this.updatePosts();
+    }
+  },
+  watch: {
+    currentPage: function currentPage() {
+      if (this.currentPage - 3 <= 0) {
+        this.page.min = 1;
+      } else {
+        this.page.min = this.currentPage - 3;
+      }
+
+      if (this.currentPage + 3 <= this.page.total) {
+        this.page.max = this.currentPage + 3;
+      } else {
+        this.page.max = this.page.total;
+      }
+
+      this.updatePages();
+    }
   }
 });
 
@@ -18191,7 +18281,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".ct[data-v-1f9218ae] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bd[data-v-1f9218ae] {\n  border: 1px solid #000;\n}\n.change-sort[data-v-1f9218ae] {\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 3.4%;\n}\n.change-sort select[data-v-1f9218ae] {\n  width: 180px;\n}\n.search-btn[data-v-1f9218ae] {\n  background-color: #ffc38a;\n  color: white;\n  border: 1px solid rgba(224, 135, 18, 0.2);\n  border-top-right-radius: 4px;\n  border-bottom-right-radius: 4px;\n}\n.left-row[data-v-1f9218ae] {\n  padding: 120px;\n  padding-bottom: 0;\n  padding-top: 0;\n}\n.tabs[data-v-1f9218ae] {\n  width: 100%;\n}\n.tabs .left .btn[data-v-1f9218ae] {\n  background-color: #ffc38a;\n  color: white;\n  border: 1px solid #e49c5a;\n}\n.tabs .left .btn[data-v-1f9218ae]:first-child {\n  border-top-left-radius: 4px;\n}\n.tabs .left .btn[data-v-1f9218ae]:last-child {\n  border-top-right-radius: 4px;\n}\n.tabs .right[data-v-1f9218ae] {\n  display: flex;\n  justify-content: flex-end;\n  height: 40px;\n}\n.tabs .right button[data-v-1f9218ae] {\n  width: 160px;\n}\n.tabs .right select[data-v-1f9218ae] {\n  width: 180px;\n  font-size: 14px;\n}\n.posts table[data-v-1f9218ae] {\n  border: 2px solid rgba(224, 135, 18, 0.2);\n  width: 98%;\n}\n.posts table tr[data-v-1f9218ae] {\n  height: 44px;\n}\n.posts table tr th[data-v-1f9218ae] {\n  color: #a1671b;\n  border-right: 2px solid rgba(224, 135, 18, 0.2);\n  height: 100%;\n  border-bottom: 2px solid rgba(224, 135, 18, 0.2);\n}\n.posts table tr td[data-v-1f9218ae] {\n  color: #a1671b;\n  height: 100%;\n  border-bottom: 2px solid rgba(224, 135, 18, 0.2);\n  border-right: 2px solid rgba(224, 135, 18, 0.2);\n}\n.posts table tr .star[data-v-1f9218ae] {\n  width: 10%;\n  text-align: center;\n}\n.posts table tr .title[data-v-1f9218ae] {\n  width: 60%;\n  padding-left: 20px;\n}\n.posts table tr .user[data-v-1f9218ae] {\n  width: 12%;\n  text-align: center;\n}\n.posts table tr .update[data-v-1f9218ae] {\n  width: 18%;\n  text-align: center;\n}\n.posts table tbody tr[data-v-1f9218ae]:hover {\n  cursor: pointer;\n  background-color: #ffc38a;\n}\n.posts table tbody tr:hover *[data-v-1f9218ae] {\n  color: white;\n}\n.create_post_btn[data-v-1f9218ae] {\n  width: 100px !important;\n  border-top-right-radius: 4px;\n  background-color: #ffc38a;\n  color: white;\n  border: 1px solid rgba(224, 135, 18, 0.2);\n}\n.create_post_btn[data-v-1f9218ae]:hover {\n  color: white;\n}\n.page[data-v-1f9218ae] {\n  height: 100px;\n}\n.page nav[data-v-1f9218ae] {\n  display: flex;\n  justify-content: center;\n  padding-top: 40px;\n  color: #000;\n}\n.page nav a[data-v-1f9218ae] {\n  color: #e08712;\n  border: 1px solid rgba(224, 135, 18, 0.2);\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".ct[data-v-1f9218ae] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bd[data-v-1f9218ae] {\n  border: 1px solid #000;\n}\n.change-sort[data-v-1f9218ae] {\n  display: flex;\n  justify-content: flex-end;\n  padding-right: 3.4%;\n}\n.change-sort select[data-v-1f9218ae] {\n  width: 180px;\n}\n.search-btn[data-v-1f9218ae] {\n  background-color: #ffc38a;\n  color: white;\n  border: 1px solid rgba(224, 135, 18, 0.2);\n  border-top-right-radius: 4px;\n  border-bottom-right-radius: 4px;\n}\n.left-row[data-v-1f9218ae] {\n  padding: 120px;\n  padding-bottom: 0;\n  padding-top: 0;\n}\n.tabs[data-v-1f9218ae] {\n  width: 100%;\n}\n.tabs .left .btn[data-v-1f9218ae] {\n  background-color: #ffc38a;\n  color: white;\n  border: 1px solid #e49c5a;\n}\n.tabs .left .btn[data-v-1f9218ae]:first-child {\n  border-top-left-radius: 4px;\n}\n.tabs .left .btn[data-v-1f9218ae]:last-child {\n  border-top-right-radius: 4px;\n}\n.tabs .right[data-v-1f9218ae] {\n  display: flex;\n  justify-content: flex-end;\n  height: 40px;\n}\n.tabs .right button[data-v-1f9218ae] {\n  width: 160px;\n}\n.tabs .right select[data-v-1f9218ae] {\n  width: 180px;\n  font-size: 14px;\n}\n.posts table[data-v-1f9218ae] {\n  border: 2px solid rgba(224, 135, 18, 0.2);\n  width: 98%;\n}\n.posts table tr[data-v-1f9218ae] {\n  height: 44px;\n}\n.posts table tr th[data-v-1f9218ae] {\n  color: #a1671b;\n  border-right: 2px solid rgba(224, 135, 18, 0.2);\n  height: 100%;\n  border-bottom: 2px solid rgba(224, 135, 18, 0.2);\n}\n.posts table tr td[data-v-1f9218ae] {\n  color: #a1671b;\n  height: 100%;\n  border-bottom: 2px solid rgba(224, 135, 18, 0.2);\n  border-right: 2px solid rgba(224, 135, 18, 0.2);\n}\n.posts table tr .star[data-v-1f9218ae] {\n  width: 10%;\n  text-align: center;\n}\n.posts table tr .title[data-v-1f9218ae] {\n  width: 62%;\n  padding-left: 20px;\n}\n.posts table tr .user[data-v-1f9218ae] {\n  width: 12%;\n  text-align: center;\n}\n.posts table tr .update[data-v-1f9218ae] {\n  width: 16%;\n  text-align: center;\n}\n.posts table tbody tr[data-v-1f9218ae]:hover {\n  cursor: pointer;\n  background-color: #ffc38a;\n}\n.posts table tbody tr:hover *[data-v-1f9218ae] {\n  color: white;\n}\n.posts .no-find[data-v-1f9218ae] {\n  border: 2px solid rgba(224, 135, 18, 0.2);\n  border-top: 0;\n  width: 98%;\n  height: 60px;\n}\n.create_post_btn[data-v-1f9218ae] {\n  width: 100px !important;\n  border-top-right-radius: 4px;\n  background-color: #ffc38a;\n  color: white;\n  border: 1px solid rgba(224, 135, 18, 0.2);\n}\n.create_post_btn[data-v-1f9218ae]:hover {\n  color: white;\n}\n.page[data-v-1f9218ae] {\n  height: 100px;\n}\n.page nav[data-v-1f9218ae] {\n  display: flex;\n  justify-content: center;\n  padding-top: 40px;\n  color: #000;\n}\n.page nav a[data-v-1f9218ae] {\n  color: #e08712;\n  border: 1px solid rgba(224, 135, 18, 0.2);\n  cursor: pointer;\n}\n.page-selected[data-v-1f9218ae] {\n  color: #ff7e42 !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37589,14 +37679,17 @@ var render = function () {
                       staticClass: "form-select",
                       on: { change: _vm.categorySelected },
                     },
-                    _vm._l(_vm.tabs, function (tab) {
+                    _vm._l(_vm.categorys, function (category) {
                       return _c(
                         "option",
-                        { key: tab.id, domProps: { value: tab.name } },
+                        {
+                          key: category.id,
+                          domProps: { value: category.name },
+                        },
                         [
                           _vm._v(
                             "\n                  " +
-                              _vm._s(tab.name) +
+                              _vm._s(category.name) +
                               "\n                "
                           ),
                         ]
@@ -37607,14 +37700,49 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search.title,
+                      expression: "search.title",
+                    },
+                  ],
                   staticClass: "form-control",
                   attrs: {
                     type: "text",
                     "aria-label": "Text input with dropdown button",
                   },
+                  domProps: { value: _vm.search.title },
+                  on: {
+                    keypress: function ($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.searchTitle.apply(null, arguments)
+                    },
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.search, "title", $event.target.value)
+                    },
+                  },
                 }),
                 _vm._v(" "),
-                _vm._m(0),
+                _c("div", { staticClass: "input-group-append" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn search-btn",
+                      on: { click: _vm.searchTitle },
+                    },
+                    [_vm._v("\n                搜尋\n              ")]
+                  ),
+                ]),
               ]),
             ]),
             _vm._v(" "),
@@ -37651,10 +37779,24 @@ var render = function () {
             _c(
               "div",
               { staticClass: "col-lg-7 left" },
-              _vm._l(_vm.tabs, function (tab) {
-                return _c("button", { key: tab.id, staticClass: "btn" }, [
-                  _vm._v("\n            " + _vm._s(tab.name) + "\n          "),
-                ])
+              _vm._l(_vm.categorys, function (category) {
+                return _c(
+                  "button",
+                  {
+                    key: category.id,
+                    staticClass: "btn",
+                    on: {
+                      click: function ($event) {
+                        return _vm.changeCategory(category.name)
+                      },
+                    },
+                  },
+                  [
+                    _vm._v(
+                      "\n            " + _vm._s(category.name) + "\n          "
+                    ),
+                  ]
+                )
               }),
               0
             ),
@@ -37678,7 +37820,7 @@ var render = function () {
           _c("div", { staticClass: "row posts" }, [
             _c("div", { staticClass: "col-lg-12" }, [
               _c("table", [
-                _vm._m(1),
+                _vm._m(0),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -37700,7 +37842,13 @@ var render = function () {
                         ),
                       ]),
                       _vm._v(" "),
-                      _c("td", { staticClass: "user" }),
+                      _c("td", { staticClass: "user" }, [
+                        _vm._v(
+                          "\n                  " +
+                            _vm._s(post.username) +
+                            "\n                "
+                        ),
+                      ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "update" }, [
                         _vm._v(
@@ -37714,10 +37862,69 @@ var render = function () {
                   0
                 ),
               ]),
+              _vm._v(" "),
+              _vm.posts.length == 0
+                ? _c("div", { staticClass: "no-find ct" }, [
+                    _vm._v("\n            沒有找到任何文章\n          "),
+                  ])
+                : _vm._e(),
             ]),
           ]),
           _vm._v(" "),
-          _vm._m(2),
+          _c("div", { staticClass: "row page" }, [
+            _c("div", { staticClass: "col" }, [
+              _c(
+                "nav",
+                { attrs: { "aria-label": "Page navigation example" } },
+                [
+                  _c(
+                    "ul",
+                    { staticClass: "pagination" },
+                    [
+                      _vm.page.min != 1
+                        ? _c("li", { staticClass: "page-item" }, [_vm._m(1)])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm._l(_vm.page.pages, function (page) {
+                        return _c(
+                          "li",
+                          { key: page.id, staticClass: "page-item" },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "page-link",
+                                class: {
+                                  "page-selected": page == _vm.currentPage,
+                                },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.changePage(page)
+                                  },
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(page) +
+                                    "\n                "
+                                ),
+                              ]
+                            ),
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _vm.page.max > 7 && _vm.currentPage + 3 >= _vm.page.max
+                        ? _c("li", { staticClass: "page-item" }, [_vm._m(2)])
+                        : _vm._e(),
+                    ],
+                    2
+                  ),
+                ]
+              ),
+            ]),
+          ]),
         ]
       ),
       _vm._v(" "),
@@ -37733,14 +37940,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c("button", { staticClass: "btn search-btn" }, [_vm._v("搜尋")]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -37761,61 +37960,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row page" }, [
-      _c("div", { staticClass: "col" }, [
-        _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-          _c("ul", { staticClass: "pagination" }, [
-            _c("li", { staticClass: "page-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "page-link",
-                  attrs: { href: "#", "aria-label": "Previous" },
-                },
-                [
-                  _c("span", { attrs: { "aria-hidden": "true" } }, [
-                    _vm._v("«"),
-                  ]),
-                ]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "page-item" }, [
-              _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                _vm._v("1"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "page-item" }, [
-              _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                _vm._v("2"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "page-item" }, [
-              _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                _vm._v("3"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "page-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "page-link",
-                  attrs: { href: "#", "aria-label": "Next" },
-                },
-                [
-                  _c("span", { attrs: { "aria-hidden": "true" } }, [
-                    _vm._v("»"),
-                  ]),
-                ]
-              ),
-            ]),
-          ]),
-        ]),
-      ]),
-    ])
+    return _c(
+      "a",
+      {
+        staticClass: "page-link",
+        attrs: { href: "#", "aria-label": "Previous" },
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")])]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "page-link", attrs: { href: "#", "aria-label": "Next" } },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")])]
+    )
   },
 ]
 render._withStripped = true
