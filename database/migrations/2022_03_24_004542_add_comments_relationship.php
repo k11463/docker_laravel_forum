@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserIdToPosts extends Migration
+class AddCommentsRelationship extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class AddUserIdToPosts extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
+            $table->foreignId('post_id')->constrained('posts')->after('id');
             $table->foreignId('user_id')->constrained('users')->after('id');
         });
     }
@@ -25,7 +26,8 @@ class AddUserIdToPosts extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('post_id');
             $table->dropConstrainedForeignId('user_id');
         });
     }

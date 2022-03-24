@@ -15,8 +15,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="/" class="nav-item nav-link active nav-a">首頁</a>
-        <a href="/post" class="nav-item nav-link nav-a">論壇</a>
+        <a
+          href="/"
+          class="nav-item nav-link nav-a"
+          :class="{ active: checkHref('/') }"
+          >首頁</a
+        >
+        <a
+          href="/posts"
+          class="nav-item nav-link nav-a"
+          :class="{ active: checkHref('/posts') }"
+          >論壇</a
+        >
         <div class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
             ><img src="favicon.ico"
@@ -32,6 +42,9 @@
             >
               {{ navbar.name }}
             </a>
+            <button class="dropdown-item" @click="logout" v-if="login_status">
+              登出
+            </button>
           </div>
         </div>
       </div>
@@ -93,6 +106,7 @@ export default {
           },
         })
         .then((res) => {
+          window.localStorage.removeItem("token");
           window.location.reload();
           this.$store.dispatch("SetToast", {
             status: true,
@@ -100,6 +114,13 @@ export default {
             content: "登出成功",
           });
         });
+    },
+    checkHref(path) {
+      if (window.location.pathname == path) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };

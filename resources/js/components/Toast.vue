@@ -15,10 +15,13 @@ export default {
     if (window.localStorage.getItem("toast_status") != null) {
       this.title = window.localStorage.getItem("toast_title");
       this.content = window.localStorage.getItem("toast_content");
-      var ele = document.getElementById("toast");
-      var toast = new bootstrap.Toast(ele);
-      toast.show();
-      window.localStorage.removeItem("toast_status");
+      var timeout = setTimeout(function () {
+        var ele = document.getElementById("toast");
+        var toast = new bootstrap.Toast(ele);
+        toast.show();
+        window.localStorage.removeItem("toast_status");
+        clearTimeout(timeout);
+      }, 2000);
     }
   },
   data() {

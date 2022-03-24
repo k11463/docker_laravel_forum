@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostTable extends Migration
+class CreatePostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,7 +18,7 @@ class CreatePostTable extends Migration
             $table->string('title');
             $table->string('category');
             $table->text('content');
-            $table->integer('star');
+            $table->integer('popular');
             $table->timestamps();
         });
     }

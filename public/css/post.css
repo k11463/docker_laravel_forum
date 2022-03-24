@@ -1,139 +1,118 @@
-.ct {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.bd {
-  border: 1px solid #000;
-}
-
-.change-sort {
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 3.4%;
-}
-.change-sort select {
-  width: 180px;
-}
-
-.search-btn {
-  background-color: #ffc38a;
+.btn {
+  background-color: #ffc266;
   color: white;
-  border: 1px solid rgba(224, 135, 18, 0.2);
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
 }
 
-.left-row {
-  padding: 120px;
-  padding-bottom: 0;
-  padding-top: 0;
+.top-side {
+  height: 100px;
+  padding: 12px;
+  padding-bottom: 0px;
 }
-
-.tabs {
-  width: 100%;
+.top-side .search-area {
+  width: 60%;
 }
-.tabs .left .btn {
-  background-color: #ffc38a;
+.top-side .search-area .form-control {
+  width: 320px;
+}
+.top-side .search-area .btn {
+  background-color: #ffc266;
+}
+.top-side .search-area .btn i {
   color: white;
-  border: 1px solid #e49c5a;
 }
-.tabs .left .btn:first-child {
-  border-top-left-radius: 4px;
+
+.navs-area {
+  padding: 12px;
+  padding-top: 0px;
 }
-.tabs .left .btn:last-child {
-  border-top-right-radius: 4px;
+.navs-area .navs {
+  background-color: #ffc266;
+  color: white;
+  border: none;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 4px;
 }
-.tabs .right {
-  display: flex;
-  justify-content: flex-end;
-  height: 40px;
+
+.post-table {
+  padding: 12px;
 }
-.tabs .right button {
+.post-table .table-title {
+  background-color: #ffc266;
+  color: white;
+  height: 48px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+.post-table .table-title select {
   width: 160px;
 }
-.tabs .right select {
-  width: 180px;
+.post-table .table-title .sort {
+  margin-left: 20px;
+}
+.post-table .table-title .sort span {
+  margin-right: 6px;
+}
+.post-table .table-title .poster {
+  margin-right: 125px;
+}
+.post-table .table-title .updated {
+  margin-right: 60px;
+}
+.post-table .table-body {
+  border: 1px solid #ffc266;
+  cursor: pointer;
+}
+.post-table .table-body .popular-category {
+  width: 8%;
+}
+.post-table .table-body .popular-category .badge {
+  background-color: #ffc266;
+}
+.post-table .table-body .popular-category i {
   font-size: 14px;
 }
-
-.posts table {
-  border: 2px solid rgba(224, 135, 18, 0.2);
-  width: 98%;
+.post-table .table-body .title {
+  width: 52%;
 }
-.posts table tr {
-  height: 44px;
+.post-table .table-body .poster {
+  width: 20%;
+  font-size: 12px;
 }
-.posts table tr th {
-  color: #a1671b;
-  border-right: 2px solid rgba(224, 135, 18, 0.2);
-  height: 100%;
-  border-bottom: 2px solid rgba(224, 135, 18, 0.2);
+.post-table .table-body .updated {
+  width: 20%;
+  font-size: 12px;
 }
-.posts table tr td {
-  color: #a1671b;
-  height: 100%;
-  border-bottom: 2px solid rgba(224, 135, 18, 0.2);
-  border-right: 2px solid rgba(224, 135, 18, 0.2);
-}
-.posts table tr .star {
-  width: 10%;
-  text-align: center;
-}
-.posts table tr .title {
-  width: 62%;
-  padding-left: 20px;
-}
-.posts table tr .user {
-  width: 12%;
-  text-align: center;
-}
-.posts table tr .update {
-  width: 16%;
-  text-align: center;
-}
-.posts table tbody tr:hover {
-  cursor: pointer;
-  background-color: #ffc38a;
-}
-.posts table tbody tr:hover * {
+.post-table .table-body:hover {
+  background-color: #ffc266;
   color: white;
 }
-.posts .no-find {
-  border: 2px solid rgba(224, 135, 18, 0.2);
-  border-top: 0;
-  width: 98%;
-  height: 60px;
+.post-table .table-body:hover .badge {
+  background-color: white;
+  color: #ffc266;
+}
+.post-table .table-body:last-child {
+  border-top: 0px;
 }
 
-.create_post_btn {
-  width: 100px !important;
-  border-top-right-radius: 4px;
-  background-color: #ffc38a;
+.paginations {
+  height: 80px;
+}
+.paginations .pagination a {
+  border: 2px solid #ffc266;
+  border-radius: 6px;
+  color: #ffc266;
+  margin-right: 2px;
+}
+.paginations .pagination a:hover {
+  background-color: #ffc266;
   color: white;
-  border: 1px solid rgba(224, 135, 18, 0.2);
-}
-
-.create_post_btn:hover {
-  color: white;
-}
-
-.page {
-  height: 100px;
-}
-.page nav {
-  display: flex;
-  justify-content: center;
-  padding-top: 40px;
-  color: #000;
-}
-.page nav a {
-  color: #e08712;
-  border: 1px solid rgba(224, 135, 18, 0.2);
   cursor: pointer;
 }
+.paginations .pagination a:first-child {
+  margin-left: 2px;
+}
 
-.page-selected {
-  color: #ff7e42 !important;
+.other-area .card {
+  height: 600px;
 }

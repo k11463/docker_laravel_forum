@@ -64,7 +64,6 @@ class AuthController extends Controller
     }
 
     public function checkToken(Request $request){
-        $request->user();
-        return 'pass';
+        return $request->user();
     }
 }

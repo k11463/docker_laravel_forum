@@ -17,7 +17,7 @@ const store = new Vuex.Store({
             window.localStorage.setItem("toast_status", payload.status);
             window.localStorage.setItem("toast_title", payload.title);
             window.localStorage.setItem("toast_content", payload.content);
-        }
+        },
     },
     modules: {
         toast: toast

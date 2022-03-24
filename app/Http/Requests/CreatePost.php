@@ -25,7 +25,7 @@ class CreatePost extends FormRequest
     {
         return [
             'category' => 'required',
-            'title' => 'required|unique:posts',
+            'title' => 'required',
             'content' => 'required',
         ];
     }
@@ -35,7 +35,6 @@ class CreatePost extends FormRequest
         return [
             'category.required' => '請選擇文章類別',
             'title.required' => '請輸入文章標題',
-            'title.unique' => '文章標題已經有人取過囉，再重新想一個吧',
             'content.required' => '請輸入文章內容',
         ];
     }

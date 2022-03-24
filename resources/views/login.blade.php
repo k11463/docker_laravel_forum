@@ -5,7 +5,6 @@
 @yield('head')
 
 <body>
-    @yield('spinner')
     <div id="app">
         <navbar></navbar>
         <login></login>

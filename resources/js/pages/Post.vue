@@ -1,139 +1,176 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-10 left" style="padding: 1.2vw">
-        <!-- searchbar -->
-        <div class="row searchbar">
-          <div class="col-lg-8">
+      <div class="col-9 post-area">
+        <!-- top side -->
+        <div class="top-side d-flex justify-content-between align-items-center">
+          <div class="search-area">
             <div class="input-group">
-              <div class="input-group-prepend">
-                <select class="form-select" @change="categorySelected">
-                  <option
-                    v-for="category in categorys"
-                    :key="category.id"
-                    :value="category.name"
-                  >
-                    {{ category.name }}
-                  </option>
-                </select>
-              </div>
+              <select class="form-select" @change="categorySelected">
+                <option
+                  :value="category"
+                  v-for="category in categorys"
+                  :key="category.id"
+                >
+                  {{ category }}
+                </option>
+              </select>
               <input
                 type="text"
                 class="form-control"
-                aria-label="Text input with dropdown button"
-                v-model="search.title"
+                placeholder="請輸入要查詢的文章標題"
                 @keypress.enter="searchTitle"
+                v-model="search.title"
               />
-              <div class="input-group-append">
-                <button class="btn search-btn" @click="searchTitle">
-                  搜尋
-                </button>
+              <button class="btn" @click="searchTitle">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </div>
+          </div>
+          <div class="btn-area">
+            <button class="btn" @click="href('/post-create')">建立文章</button>
+          </div>
+        </div>
+        <!-- top side -->
+        <!-- navs area  -->
+        <div class="navs-area">
+          <button
+            class="me-1 navs"
+            v-for="category in categorys"
+            :key="category.id"
+            @click="changeCategory(category)"
+          >
+            {{ category }}
+          </button>
+        </div>
+        <!-- navs area  -->
+        <!-- post table -->
+        <div class="post-table">
+          <!-- table title -->
+          <div class="table-title d-flex align-items-center">
+            <div class="sort me-auto">
+              <span>文章排序</span>
+              <select @change="changeSort">
+                <option
+                  :value="option.value"
+                  v-for="option in sort_options"
+                  :key="option.id"
+                >
+                  {{ option.name }}
+                </option>
+              </select>
+            </div>
+            <div class="poster">發文者</div>
+            <div class="updated">最新回復</div>
+          </div>
+          <!-- table title -->
+          <!-- table body -->
+          <div
+            class="table-body d-flex"
+            v-for="post in posts"
+            :key="post.id"
+            @click="singlePost(post.post_id)"
+          >
+            <div
+              class="
+                popular-category
+                d-flex
+                justify-content-center
+                flex-column
+                align-items-center
+                pt-1
+                pb-1
+              "
+            >
+              <div class="badge">
+                {{ post.category }}
+              </div>
+              <div class="popular">
+                <i class="fa-solid fa-heart">
+                  {{ post.popular }}
+                </i>
               </div>
             </div>
-          </div>
-          <div class="col-lg-4 change-sort">
-            <select
-              class="form-select"
-              aria-label="Default select example"
-              @change="changeSort"
+            <div class="title d-flex align-items-center ps-4">
+              {{ post.title }}
+            </div>
+            <div
+              class="
+                poster
+                d-flex
+                justify-content-center
+                flex-column
+                align-items-center
+                p-1
+              "
             >
-              <option
-                v-for="sort_option in sort_options"
-                :key="sort_option.id"
-                :value="sort_option.value"
-              >
-                {{ sort_option.name }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <!-- searchbar -->
-        <!-- tabs -->
-        <div class="row tabs">
-          <div class="col-lg-7 left">
-            <button
-              class="btn"
-              v-for="category in categorys"
-              :key="category.id"
-              @click="changeCategory(category.name)"
+              <div class="poster-name">
+                {{ post.username }}
+              </div>
+              <div class="poster-updated">
+                {{ post.updated_at }}
+              </div>
+            </div>
+            <div
+              class="
+                updated
+                d-flex
+                justify-content-center
+                flex-column
+                align-items-center
+                p-1
+              "
             >
-              {{ category.name }}
-            </button>
-          </div>
-          <div class="col-lg-5 right">
-            <button class="btn create_post_btn" @click="href('/create-post')">
-              發表文章
-            </button>
-          </div>
-        </div>
-        <!-- tabs -->
-        <!-- tables -->
-        <div class="row posts">
-          <div class="col-lg-12">
-            <table>
-              <thead>
-                <tr>
-                  <th class="star">收藏數</th>
-                  <th class="title">文章標題</th>
-                  <th class="user">作者</th>
-                  <th class="update">更新時間</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="post in posts" :key="post.id">
-                  <td class="star">
-                    {{ post.star }}
-                  </td>
-                  <td class="title">
-                    {{ post.title }}
-                  </td>
-                  <td class="user">
-                    {{ post.username }}
-                  </td>
-                  <td class="update">
-                    {{ post.updated_at }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="no-find ct" v-if="posts.length == 0">
-              沒有找到任何文章
+              <div class="poster-name">bochen</div>
+              <div class="poster-updated">2021/03/22 下午 3:16</div>
             </div>
           </div>
-        </div>
-        <div class="row page">
-          <div class="col">
-            <nav aria-label="Page navigation example">
-              <ul class="pagination">
-                <li class="page-item" v-if="page.min != 1">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item" v-for="page in page.pages" :key="page.id">
-                  <a
-                    class="page-link"
-                    :class="{ 'page-selected': page == currentPage }"
-                    @click="changePage(page)"
-                  >
-                    {{ page }}
-                  </a>
-                </li>
-                <li
-                  class="page-item"
-                  v-if="page.max > 7 && currentPage + 3 >= page.max"
-                >
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+          <div
+            class="table-body d-flex align-items-center justify-content-center"
+            style="height: 48px"
+            v-if="posts.length == 0"
+          >
+            沒有搜尋到文章喔
           </div>
+          <!-- table body -->
         </div>
-        <!-- tables -->
+        <!-- post table -->
+        <!-- navigations -->
+        <div
+          class="paginations d-flex align-items-center justify-content-center"
+        >
+          <nav>
+            <ul class="pagination">
+              <li class="page-item" v-if="page.min != 1">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item" v-for="page in page.pages" :key="page.id">
+                <a
+                  class="page-link"
+                  :class="{ 'page-selected': page == currentPage }"
+                  @click="changePage(page)"
+                >
+                  {{ page }}
+                </a>
+              </li>
+              <li
+                class="page-item"
+                v-if="page.max > 7 && currentPage + 3 >= page.max"
+              >
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <!-- navigations -->
       </div>
-      <div class="col-2 right padd" style="border: 1px solid">開發中</div>
+      <div class="col-3 other-area">
+        <div class="card"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -142,7 +179,7 @@
 export default {
   mounted() {
     axios
-      .get("/posts")
+      .get("/posts/index")
       .then((res) => {
         // console.log(res.data);
         res.data.posts.forEach((element) => {
@@ -158,17 +195,7 @@ export default {
   },
   data() {
     return {
-      categorys: [
-        {
-          name: "電玩相關",
-        },
-        {
-          name: "心情抒發",
-        },
-        {
-          name: "發問專區",
-        },
-      ],
+      categorys: ["全部主題", "電玩相關", "心情抒發", "發問專區"],
       posts: [],
       sort_options: [
         {
@@ -213,19 +240,22 @@ export default {
   },
   methods: {
     href(url) {
-      console.log(url);
       window.location.href = url;
     },
     changeSort(val) {
       if (/create/.test(val.target.value)) this.search.sortWith = "created_at";
       if (/update/.test(val.target.value)) this.search.sortWith = "updated_at";
-      if (/star/.test(val.target.value)) this.search.sortWith = "star";
+      if (/star/.test(val.target.value)) this.search.sortWith = "popular";
       if (/desc/.test(val.target.value)) this.search.sortType = "desc";
       if (/asc/.test(val.target.value)) this.search.sortType = "asc";
       this.updatePosts();
     },
     changeCategory(name) {
-      this.search.category = name;
+      if (name == "全部主題") {
+        this.search.category = "";
+      } else {
+        this.search.category = name;
+      }
       this.updatePosts();
     },
     categorySelected(val) {
@@ -236,8 +266,8 @@ export default {
       this.search.title = "";
     },
     updatePosts() {
-      let url = "/posts?";
-      if (this.search.category != "")
+      let url = "/posts/index?";
+      if (this.search.category != "" || this.search.category != "全部主題")
         url += "category=" + this.search.category + "&";
       if (this.search.title != "") url += "title=" + this.search.title + "&";
       if (this.search.sortWith != "")
@@ -245,7 +275,7 @@ export default {
       if (this.search.sortType != "")
         url += "sortType=" + this.search.sortType + "&";
       if (this.currentPage > 1) url += "page=" + this.currentPage + "&";
-
+      console.log(url);
       axios.get(url).then((res) => {
         // console.log(res.data);
         this.posts = [];
@@ -263,6 +293,10 @@ export default {
     changePage(page) {
       this.currentPage = page;
       this.updatePosts();
+    },
+    singlePost(id) {
+      window.localStorage.setItem("post_id", id);
+      window.location.href = "/post-single";
     },
   },
   watch: {

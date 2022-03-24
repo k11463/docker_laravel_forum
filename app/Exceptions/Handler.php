@@ -44,5 +44,6 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return response('沒有權限', 401);
+        // return redirect()->route('login');
     }
 }

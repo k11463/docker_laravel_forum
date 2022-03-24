@@ -27,6 +27,7 @@
                   :id="input.input_label"
                   :placeholder="input.placeholder"
                   v-model="input.value"
+                  @keypress.enter="signup"
                 />
               </div>
             </form>
@@ -41,7 +42,7 @@
             </div>
             <div class="row">
               <div class="col center btn_signup_box">
-                <button class="btn" @click="this.Signup">註冊</button>
+                <button class="btn" @click="signup">註冊</button>
               </div>
             </div>
             <div class="row">
@@ -97,7 +98,7 @@ export default {
     };
   },
   methods: {
-    Signup() {
+    signup() {
       let email, username, password, password_confirmation;
       this.inputs.forEach((element) => {
         switch (element.input_label) {

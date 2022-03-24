@@ -33,7 +33,14 @@
                 <p class="fs-5 text-white mb-4 pb-2">讓您體會前所未有的高潮</p>
                 <a
                   href="/post"
-                  class="btn btn-light py-md-3 px-md-5 animated slideInRight"
+                  class="
+                    btn btn-light
+                    py-md-3
+                    px-md-5
+                    animated
+                    slideInRight
+                    start-use-btn
+                  "
                   >現在就開始使用</a
                 >
               </div>
@@ -44,3 +51,9 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.start-use-btn {
+  color: rgb(255, 194, 102) !important;
+}
+</style>

@@ -8,13 +8,15 @@ use App\Handlers\ImageUploadHandler;
 use App\Models\Post;
 use App\Http\Requests\CreatePost;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+
     public function index(Request $request)
     {
         // 類別
-        $currentCategory = isset($request->category) ? $request->category : '電玩相關'; // 如果沒有傳過來category這個參數，預設為電玩相關
+        $currentCategory = isset($request->category) ? $request->category : '';
 
         // 分頁
         $postCount = Post::count();
@@ -23,7 +25,7 @@ class PostController extends Controller
         $currentPage = isset($request->page) ? $request->page : 1;
 
         // 排序
-        $currentSortWith = isset($request->sortWith) ? $request->sortWith : 'created_at';
+        $currentSortWith = isset($request->sortWith) ? $request->sortWith : 'updated_at';
         $currentSortType = isset($request->sortType) ? $request->sortType : 'desc';
 
         // 總處理
@@ -32,8 +34,10 @@ class PostController extends Controller
                      ->where(function ($query) use ($currentCategory, $title) {
                          if (isset($title)){ // 如果沒有輸入title查詢就直接跳過title找category
                              $query->where('title', 'like', '%'.$title.'%');
-                         };
-                         $query->where('category', '=', $currentCategory);
+                         }
+                         if ($currentCategory != ''){
+                            $query->where('category', '=', $currentCategory);
+                         }
                      })
                      ->orderBy($currentSortWith, $currentSortType)
                      ->offset($postPerPage * ($currentPage - 1))
@@ -41,13 +45,17 @@ class PostController extends Controller
                      ->get();
         $returnPosts = [];
         foreach ($posts as $post) {
+            $updated_at = '';
+            $hour = $post->updated_at->format('H');
+            ($hour >= 12) ? $updated_at = $post->updated_at->format('Y/m/d 下午 h:i') : $updated_at = $post->updated_at->format('Y/m/d 上午 h:i');
             $newPost = [
+                'post_id' => $post->id,
                 'title' => $post->title,
+                'category' => $post->category,
                 'content' => $post->content,
                 'username' => $post->user->username,
-                'star' => $post->star,
-                'created_at' => $post->created_at->format('Y-m-d H-m-s'),
-                'updated_at' => $post->updated_at->format('Y-m-d H-m-s'),
+                'popular' => $post->popular,
+                'updated_at' => $updated_at,
             ];
             array_push($returnPosts, $newPost);
         }
@@ -59,31 +67,54 @@ class PostController extends Controller
 
     public function store(CreatePost $request, ImageUploadHandler $uploader)
     {
-        $post = new Post([
+        Post::create([
             'title' => $request->title,
             'category' => $request->category,
             'content' => $request->content,
             'user_id' => auth()->user()->id,
-            'star' => 0
+            'popular' => 0,
         ]);
-        $post->save();
-        return $post;
+        return response('success', 201);
     }
 
-    public function update(Request $request, $id)
+    public function show($id)
     {
-        $data = $request->all();
-        DB::table('posts')->where('id', $id)->update([
-            'class' => $data['class'],
-            'context' => $data['context'],
-            'updated_at' => now()
+        if ($post = Post::findOrFail($id))
+        {
+            $updated_at = '';
+            $hour = $post->updated_at->format('H');
+            ($hour >= 12) ? $updated_at = $post->updated_at->format('Y/m/d 下午 h:i') : $updated_at = $post->updated_at->format('Y/m/d 上午 h:i');
+            $returnPost = [
+                'id' => $post->id,
+                'title' => $post->title,
+                'content' => $post->content,
+                'updated_at' => $updated_at,
+                'username' => $post->user->username,
+                'user_id' => $post->user->id,
+                'category' => $post->category
+            ];
+
+            return $returnPost;
+        }
+        else {
+            return response('cannot find post', 401);
+        }
+    }
+
+    public function update(CreatePost $request)
+    {
+        Post::find($request->id)->update([
+            'category' => $request->category,
+            'title' => $request->title,
+            'content' => $request->content,
         ]);
-        return response()->json(true);
+
+        return response('updated success');
     }
 
     public function destroy($id)
     {
-        DB::table('posts')->where('id', $id)->delete();
-        return response()->json(true);
+        Post::find($id)->delete();
+        return response('deleted success');
     }
 }

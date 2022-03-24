@@ -1,0 +1,33 @@
+.post {
+    width: 1000px;
+    .card-title {
+        background-color: #ffc266;
+        color:white;
+        .left {
+            width: 280px;
+            .updated {
+                font-size: 14px;
+            }
+        }
+        .middle {
+            width: 450px;
+        }
+        .right {
+            width: 280px;
+            i {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.btn {
+    background-color: #ffc266;
+    color:white;
+}
+
+.reply {
+    .card-title {
+        font-size: 24px;
+    }
+}

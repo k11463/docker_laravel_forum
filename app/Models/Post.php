@@ -10,15 +10,20 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category', 'title', 'content', 'star', 'user_id'
+        'category', 'title', 'content', 'popular', 'user_id'
     ];
 
-    protected $hidden = [
-        'id', 'user_id'
-    ];
+    // protected $hidden = [
+    //     'id', 'user_id'
+    // ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

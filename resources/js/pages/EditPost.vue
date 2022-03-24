@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="card">
-      <div class="title center">新增文章</div>
+      <div class="title center">修改文章</div>
       <div
         class="card-body"
         style="padding: 80px; padding-top: 0; padding-bottom: 0"
@@ -13,7 +13,8 @@
                 <option
                   :value="category"
                   v-for="category in categorys"
-                  :key="category.ud"
+                  :key="category.id"
+                  :selected="category == category_selected"
                 >
                   {{ category }}
                 </option>
@@ -54,29 +55,12 @@
 <script>
 export default {
   mounted() {
-    // if (window.localStorage.getItem("token") != null) {
-    //   axios
-    //     .get("/check-token", {
-    //       headers: {
-    //         Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-    //       },
-    //     })
-    //     .catch((err) => {
-    //       window.location.href = "/post";
-    //       this.$store.dispatch("SetToast", {
-    //         status: true,
-    //         title: "系統提示",
-    //         content: "你沒有權限新增文章，請登入後再試",
-    //       });
-    //     });
-    // } else {
-    //   window.location.href = "/post";
-    //   this.$store.dispatch("SetToast", {
-    //     status: true,
-    //     title: "系統提示",
-    //     content: "你沒有權限新增文章，請登入後再試",
-    //   });
-    // }
+    axios.get("/post/" + window.localStorage.getItem("post_id")).then((res) => {
+      //   console.log(res.data);
+      this.title = res.data.title;
+      this.content = res.data.content;
+      this.category_selected = res.data.category;
+    });
   },
   data() {
     return {
@@ -98,9 +82,10 @@ export default {
         },
       };
       axios
-        .post(
+        .put(
           "/post",
           {
+            id: window.localStorage.getItem("post_id"),
             title: this.title,
             content: this.content,
             category: this.category_selected,
@@ -108,33 +93,25 @@ export default {
           config
         )
         .then((res) => {
-          window.location.href = "/post";
+          window.location.href = "/posts";
           this.$store.dispatch("SetToast", {
             status: true,
             title: "系統提示",
-            content: "文章建立完成",
+            content: "文章修改完成",
           });
         })
         .catch((err) => {
-          console.log(err.response);
+          console.log(err);
           if (err.response.status == 422) {
             this.error_msg = Object.values(err.response.data.errors)[0][0];
           }
         });
     },
     cancel() {
-      window.location.href = "/post";
+      window.history.back();
     },
   },
-  computed: {
-    upload_image() {
-      if (this.image != null) {
-        return this.image;
-      } else {
-        return "post.png";
-      }
-    },
-  },
+  computed: {},
 };
 </script>
 

@@ -7,7 +7,7 @@
 <body>
     <div id="app">
         <navbar></navbar>
-        <post></post>
+        <single-post></single-post>
         <toast></toast>
     </div>
 </body>

@@ -27,6 +27,7 @@
                   :id="input.input_label"
                   :placeholder="input.placeholder"
                   v-model="input.value"
+                  @keypress.enter="login"
                 />
               </div>
             </form>
@@ -41,7 +42,7 @@
             </div>
             <div class="row">
               <div class="col center btn_signup_box">
-                <button class="btn" @click="this.Login">登入</button>
+                <button class="btn" @click="login">登入</button>
               </div>
             </div>
           </div>
@@ -77,7 +78,7 @@ export default {
     };
   },
   methods: {
-    Login() {
+    login() {
       let account, password;
       this.inputs.forEach((element) => {
         switch (element.input_label) {
@@ -97,7 +98,7 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.status == 200) {
-            window.location.href = "/";
+            window.history.back();
             window.localStorage.setItem("token", res.data.token);
             this.$store.dispatch("SetToast", {
               status: true,
