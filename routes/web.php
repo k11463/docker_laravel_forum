@@ -13,6 +13,7 @@ Route::get('/post-create', function() { return view('createPost'); });
 Route::get('/post-single', function() { return view('singlePost'); });
 Route::get('/post/{id}', "PostController@show");
 Route::get('/post-edit', function() { return view('editPost'); });
+Route::get('/comments/{id}', "PostController@replyIndex");
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/check-token', 'AuthController@checkToken');
@@ -20,6 +21,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('/post', "PostController@store");
     Route::put('/post', 'PostController@update');
     Route::delete('/post/{id}', 'PostController@destroy');
+    Route::post('/comment', 'PostController@replyPost');
+    Route::delete('/comment/{id}', 'PostController@replyDelete');
 });
 
 // Route::get('/{any}', function () { return view('Homepage'); })->where('any', '.*');

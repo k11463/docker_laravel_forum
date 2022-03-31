@@ -6491,6 +6491,63 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     var _this = this;
@@ -6507,11 +6564,18 @@ __webpack_require__.r(__webpack_exports__);
       // console.log(res.data);
       _this.user = res.data;
     });
+    axios.get("/comments/" + window.localStorage.getItem("post_id")).then(function (res) {
+      console.log(res.data);
+      _this.comments = res.data;
+    });
   },
   data: function data() {
     return {
       post: [],
-      user: []
+      user: [],
+      comments: [],
+      replyContent: "",
+      contentErr: ""
     };
   },
   methods: {
@@ -6528,6 +6592,33 @@ __webpack_require__.r(__webpack_exports__);
         window.location.href = "/posts";
       })["catch"](function (err) {//   window.localStorage.removeItem("token");
         //   window.location.href = "/login";
+      });
+    },
+    reply: function reply() {
+      var _this2 = this;
+
+      axios.post("/comment", {
+        content: this.replyContent,
+        user_id: this.user.id,
+        post_id: this.post.id
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(window.localStorage.getItem("token"))
+        }
+      }).then(function (res) {
+        window.location.reload();
+      })["catch"](function (err) {
+        //   console.log(err.response.data.errors);
+        _this2.contentErr = err.response.data.errors.content[0];
+      });
+    },
+    deleteReply: function deleteReply(id) {
+      axios["delete"]("/comment/" + id, {
+        headers: {
+          Authorization: "Bearer ".concat(window.localStorage.getItem("token"))
+        }
+      }).then(function (res) {
+        window.location.reload();
       });
     }
   }
@@ -38170,7 +38261,7 @@ var staticRenderFns = [
                         {
                           staticClass:
                             "\n                  btn btn-light\n                  py-md-3\n                  px-md-5\n                  animated\n                  slideInRight\n                  start-use-btn\n                ",
-                          attrs: { href: "/post" },
+                          attrs: { href: "/posts" },
                         },
                         [_vm._v("現在就開始使用")]
                       ),
@@ -39105,154 +39196,354 @@ var render = function () {
     "div",
     { staticClass: "container box p-5 d-flex justify-content-center" },
     [
-      _c("div", [
-        _c("div", { staticClass: "card post" }, [
-          _c("div", { staticClass: "card-title p-1 d-flex" }, [
-            _c("div", { staticClass: "left ps-3" }, [
-              _c("div", { staticClass: "d-flex align-items-center" }, [
-                _c("img", {
-                  staticClass: "avatar",
-                  attrs: {
-                    width: "30",
-                    height: "30",
-                    src: "http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQHUjk0GeJmuF_r9ztsLkCXUd1BtZrLiJPIVc_lEpBD42BxycoM1iYkod3qAFk6FzVPaon2f1q6boeHbq5gdRg",
-                  },
-                }),
+      _c(
+        "div",
+        [
+          _c("div", { staticClass: "card post" }, [
+            _c("div", { staticClass: "card-title p-1 d-flex" }, [
+              _c("div", { staticClass: "left ps-3" }, [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _c("img", {
+                    staticClass: "avatar",
+                    attrs: {
+                      width: "30",
+                      height: "30",
+                      src: "http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQHUjk0GeJmuF_r9ztsLkCXUd1BtZrLiJPIVc_lEpBD42BxycoM1iYkod3qAFk6FzVPaon2f1q6boeHbq5gdRg",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "username ms-2" }, [
+                    _vm._v(
+                      "\n              " +
+                        _vm._s(_vm.post.username) +
+                        "\n            "
+                    ),
+                  ]),
+                ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "username ms-2" }, [
-                  _vm._v(
-                    "\n              " +
-                      _vm._s(_vm.post.username) +
-                      "\n            "
-                  ),
+                _c("div", { staticClass: "updated" }, [
+                  _vm._v("更新日期:" + _vm._s(_vm.post.updated_at)),
                 ]),
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "updated" }, [
-                _vm._v("更新日期:" + _vm._s(_vm.post.updated_at)),
-              ]),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "middle d-flex justify-content-center align-items-center",
+                },
+                [
+                  _c("div", { staticClass: "title" }, [
+                    _vm._v(
+                      "\n            " + _vm._s(_vm.post.title) + "\n          "
+                    ),
+                  ]),
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(0),
             ]),
             _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "middle d-flex justify-content-center align-items-center",
-              },
-              [
-                _c("div", { staticClass: "title" }, [
-                  _vm._v(
-                    "\n            " + _vm._s(_vm.post.title) + "\n          "
-                  ),
-                ]),
-              ]
-            ),
-            _vm._v(" "),
-            _vm._m(0),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm.post.user_id == _vm.user.id
-              ? _c(
-                  "div",
-                  { staticClass: "btn-area d-flex justify-content-between" },
-                  [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "btn",
-                        on: {
-                          click: function ($event) {
-                            return _vm.href("post-edit")
+            _c("div", { staticClass: "card-body" }, [
+              _vm.post.user_id == _vm.user.id
+                ? _c(
+                    "div",
+                    { staticClass: "btn-area d-flex justify-content-between" },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "btn",
+                          on: {
+                            click: function ($event) {
+                              return _vm.href("post-edit")
+                            },
                           },
                         },
-                      },
-                      [_vm._v("編輯文章")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "btn",
-                        attrs: {
-                          "data-bs-toggle": "modal",
-                          "data-bs-target": "#deletePostModal",
+                        [_vm._v("編輯文章")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "btn",
+                          attrs: {
+                            "data-bs-toggle": "modal",
+                            "data-bs-target": "#deletePostModal",
+                          },
                         },
-                      },
-                      [_vm._v("\n            刪除文章\n          ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "modal fade",
-                        attrs: {
-                          id: "deletePostModal",
-                          tabindex: "-1",
-                          "aria-labelledby": "exampleModalLabel",
-                          "aria-hidden": "true",
+                        [_vm._v("\n            刪除文章\n          ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "modal fade",
+                          attrs: {
+                            id: "deletePostModal",
+                            tabindex: "-1",
+                            "aria-labelledby": "exampleModalLabel",
+                            "aria-hidden": "true",
+                          },
                         },
-                      },
-                      [
-                        _c("div", { staticClass: "modal-dialog" }, [
-                          _c("div", { staticClass: "modal-content" }, [
-                            _vm._m(1),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "modal-body" }, [
-                              _vm._v(
-                                "\n                  你確定要刪除文章嗎? 操作不可逆 請確認\n                "
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "modal-footer" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn",
-                                  attrs: {
-                                    type: "button",
-                                    "data-bs-dismiss": "modal",
-                                  },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                    我反悔了\n                  "
-                                  ),
-                                ]
-                              ),
+                        [
+                          _c("div", { staticClass: "modal-dialog" }, [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _vm._m(1),
                               _vm._v(" "),
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn",
-                                  attrs: { type: "button" },
-                                  on: { click: _vm.deletePost },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                    確定\n                  "
-                                  ),
-                                ]
-                              ),
+                              _c("div", { staticClass: "modal-body" }, [
+                                _vm._v(
+                                  "\n                  你確定要刪除此文章嗎? 刪除後將無法復原\n                "
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "modal-footer" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn",
+                                    attrs: {
+                                      type: "button",
+                                      "data-bs-dismiss": "modal",
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                    我反悔了\n                  "
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn",
+                                    attrs: { type: "button" },
+                                    on: { click: _vm.deletePost },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                    確定\n                  "
+                                    ),
+                                  ]
+                                ),
+                              ]),
                             ]),
                           ]),
-                        ]),
-                      ]
-                    ),
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "content p-2" }, [
-              _vm._v("\n          " + _vm._s(_vm.post.content) + "\n        "),
+                        ]
+                      ),
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "content p-2" }, [
+                _vm._v(
+                  "\n          " + _vm._s(_vm.post.content) + "\n        "
+                ),
+              ]),
             ]),
           ]),
-        ]),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _vm._m(3),
-      ]),
+          _vm._v(" "),
+          _vm._l(_vm.comments, function (comment) {
+            return _c(
+              "div",
+              { key: comment.id, staticClass: "card comments post mt-4" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-title p-1 d-flex justify-content-between",
+                  },
+                  [
+                    _c("div", { staticClass: "left ps-3" }, [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("img", {
+                          staticClass: "avatar",
+                          attrs: {
+                            width: "30",
+                            height: "30",
+                            src: "http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQHUjk0GeJmuF_r9ztsLkCXUd1BtZrLiJPIVc_lEpBD42BxycoM1iYkod3qAFk6FzVPaon2f1q6boeHbq5gdRg",
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "username ms-2" }, [
+                          _vm._v(
+                            "\n              " +
+                              _vm._s(comment.poster) +
+                              "\n            "
+                          ),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "updated" }, [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(comment.updated_at) +
+                            "\n          "
+                        ),
+                      ]),
+                    ]),
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _vm.user.id == comment.poster_id
+                    ? _c(
+                        "div",
+                        { staticClass: "btn-area d-flex justify-content-end" },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "btn",
+                              attrs: {
+                                "data-bs-toggle": "modal",
+                                "data-bs-target": "#deleteReply",
+                              },
+                            },
+                            [_vm._v("\n            刪除回覆\n          ")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "modal fade",
+                              attrs: {
+                                id: "deleteReply",
+                                tabindex: "-1",
+                                "aria-labelledby": "exampleModalLabel",
+                                "aria-hidden": "true",
+                              },
+                            },
+                            [
+                              _c("div", { staticClass: "modal-dialog" }, [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(2, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _vm._v(
+                                      "\n                  你確定要刪除此回覆嗎? 刪除後將無法復原\n                "
+                                    ),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-footer" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn",
+                                        attrs: {
+                                          type: "button",
+                                          "data-bs-dismiss": "modal",
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                    我反悔了\n                  "
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.deleteReply(comment.id)
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                    確定\n                  "
+                                        ),
+                                      ]
+                                    ),
+                                  ]),
+                                ]),
+                              ]),
+                            ]
+                          ),
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "content p-2" }, [
+                    _vm._v(
+                      "\n          " + _vm._s(comment.content) + "\n        "
+                    ),
+                  ]),
+                ]),
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "card reply mt-4" }, [
+            _c(
+              "div",
+              { staticClass: "card-title d-flex justify-content-center pt-3" },
+              [_vm._v("\n        回覆文章\n      ")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", [
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.replyContent,
+                      expression: "replyContent",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    "aria-describedby": "contentErr",
+                    rows: "10",
+                  },
+                  domProps: { value: _vm.replyContent },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.replyContent = $event.target.value
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _vm.contentErr != ""
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "form-text",
+                        staticStyle: { color: "red" },
+                        attrs: { id: "contentErr" },
+                      },
+                      [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(_vm.contentErr) +
+                            "\n          "
+                        ),
+                      ]
+                    )
+                  : _vm._e(),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex justify-content-end pt-3" }, [
+                _c("button", { staticClass: "btn", on: { click: _vm.reply } }, [
+                  _vm._v("送出"),
+                ]),
+              ]),
+            ]),
+          ]),
+        ],
+        2
+      ),
     ]
   )
 }
@@ -39300,84 +39591,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card comments post mt-4" }, [
+    return _c("div", { staticClass: "modal-header" }, [
       _c(
-        "div",
-        { staticClass: "card-title p-1 d-flex justify-content-between" },
-        [
-          _c("div", { staticClass: "left ps-3" }, [
-            _c("div", { staticClass: "d-flex align-items-center" }, [
-              _c("img", {
-                staticClass: "avatar",
-                attrs: {
-                  width: "30",
-                  height: "30",
-                  src: "http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQHUjk0GeJmuF_r9ztsLkCXUd1BtZrLiJPIVc_lEpBD42BxycoM1iYkod3qAFk6FzVPaon2f1q6boeHbq5gdRg",
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "username ms-2" }, [_vm._v("name")]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "updated" }, [
-              _vm._v("更新日期:2022/03/29 下午 03:18"),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "right d-flex flex-column align-items-center" },
-            [
-              _c("span", [_vm._v("覺得回覆怎麼樣?")]),
-              _vm._v(" "),
-              _c("div", [
-                _c("i", { staticClass: "fa-solid fa-thumbs-up" }),
-                _vm._v(" "),
-                _c("i", { staticClass: "fa-solid fa-thumbs-down" }),
-              ]),
-            ]
-          ),
-        ]
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("刪除文章")]
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "btn-area d-flex justify-content-between" }, [
-          _c("div", { staticClass: "btn" }, [_vm._v("編輯回覆")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "btn" }, [_vm._v("刪除回覆")]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "content p-2" }, [_vm._v("內容")]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card reply mt-4" }, [
-      _c(
-        "div",
-        { staticClass: "card-title d-flex justify-content-center pt-3" },
-        [_vm._v("\n        回覆文章\n      ")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", [
-          _c("textarea", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              "aria-describedby": "contentErr",
-              rows: "10",
-            },
-          }),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "d-flex justify-content-end pt-3" }, [
-          _c("button", { staticClass: "btn" }, [_vm._v("送出")]),
-        ]),
-      ]),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close",
+        },
+      }),
     ])
   },
 ]

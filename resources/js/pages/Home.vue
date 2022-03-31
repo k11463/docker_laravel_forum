@@ -32,7 +32,7 @@
                 </h1>
                 <p class="fs-5 text-white mb-4 pb-2">讓您體會前所未有的高潮</p>
                 <a
-                  href="/post"
+                  href="/posts"
                   class="
                     btn btn-light
                     py-md-3

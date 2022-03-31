@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\DB;
 use App\Handlers\ImageUploadHandler;
 use App\Models\Post;
+use App\Models\Comment;
 use App\Http\Requests\CreatePost;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
@@ -116,5 +117,54 @@ class PostController extends Controller
     {
         Post::find($id)->delete();
         return response('deleted success');
+    }
+
+    public function replyIndex($id)
+    {
+        $comments = Comment::where('post_id', $id)->get();
+        $return = [];
+        foreach($comments as $comment)
+        {
+            $updated_at = '';
+            $hour = $comment->updated_at->format('H');
+            ($hour >= 12) ? $updated_at = $comment->updated_at->format('Y/m/d 下午 h:i') : $updated_at = $comment->updated_at->format('Y/m/d 上午 h:i');
+            $newComment = [
+                'id' => $comment->id,
+                'poster' => $comment->user->username,
+                'poster_id' => $comment->user->id,
+                'updated_at' => $updated_at,
+                'content' => $comment->content,
+            ];
+            array_push($return, $newComment);
+        }
+        return $return;
+    }
+
+    public function replyPost(Request $request)
+    {
+        $request->validate([
+            'content' => 'required'
+        ],[
+            'content.required' => '請填寫回覆內容'
+        ]);
+
+        Comment::create([
+            'content' => $request->content,
+            'user_id' => $request->user_id,
+            'post_id' => $request->post_id
+        ]);
+
+        return response('create');
+    }
+
+    public function replyDelete($id)
+    {
+        if ($comment = Comment::findOrFail($id)){
+            $comment->delete();
+            return response('刪除成功');
+        }
+        else {
+            return response('找不到此留言');
+        }
     }
 }
